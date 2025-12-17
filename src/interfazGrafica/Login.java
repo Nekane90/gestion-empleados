@@ -17,6 +17,7 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField tfNombre;
 	private JTextField tfContraseña;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -80,6 +81,11 @@ public class Login extends JFrame {
 		btCancelar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btCancelar.setBounds(377, 329, 168, 35);
 		contentPane.add(btCancelar);
+		
+		textField = new JTextField();
+		textField.setBounds(404, 87, 96, 18);
+		contentPane.add(textField);
+		textField.setColumns(10);
 
 	}
 }
