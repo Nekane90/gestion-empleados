@@ -81,6 +81,11 @@ public class Principal extends JDialog {
 		contentPanel.add(btFichaje);
 		
 		JButton btSalir = new JButton("S A L I R");
+		btSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		btSalir.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btSalir.setBounds(521, 379, 150, 32);
 		contentPanel.add(btSalir);

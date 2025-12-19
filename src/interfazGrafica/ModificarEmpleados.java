@@ -117,6 +117,8 @@ public class ModificarEmpleados extends JDialog {
 					 empDto.setNombreEmple(tfNombre.getText().trim());
 					 empDto.setApellidoEmple(tfApellido.getText().trim());
 					 
+					 
+					 
 					 //Verificamos que no metan letras en el salario
 					 try {
 						    double salario = Double.parseDouble(tfSalario.getText().trim());
@@ -255,6 +257,8 @@ public class ModificarEmpleados extends JDialog {
 	}
 	////////////////METODOS///////////////////
 	
+	
+	///cargar en el combo las categorias
 
 	private void cargarComboConCategoria() {
 	    ArrayList<CategoriaDto> listaCat = catDao.listarTodos();
@@ -266,12 +270,10 @@ public class ModificarEmpleados extends JDialog {
 	    
 	    
 	    
-	  ///aqui buscamos el empleado y se rellenan los datos en el formulario
+	  ////metodo buscar
 	 
 	  private void buscar() {
-		  empDto = null;
-		// Primero, obtenemos el texto
-			
+		  	empDto = null;
 		    String textoCodigo = tfIdEmpleado.getText().trim();
 
 		    // Verificamos si está vacío
@@ -307,6 +309,24 @@ public class ModificarEmpleados extends JDialog {
 	  		}
 	 
 	  }
+	  
+	  ///Metodo para comprobar el dni
+	  public static boolean dniValido(String dni) {
+		    if (dni == null || dni.length() != 9) return false;
+
+		    String numeroStr = dni.substring(0, 8);
+		    char letra = Character.toUpperCase(dni.charAt(8));
+
+		    // Comprobar que los primeros 8 caracteres sean números
+		    if (!numeroStr.matches("\\d{8}")) return false;
+
+		    int numero = Integer.parseInt(numeroStr);
+		    char[] letras = {'T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E'};
+		    char letraCorrecta = letras[numero % 23];
+
+		    return letra == letraCorrecta;
+		}
+
 }
 
 	

@@ -92,6 +92,8 @@ public class Login extends JFrame {
 		btCancelar.setBackground(new Color(105, 201, 183));
 		btCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
 			}
 		});
 		btCancelar.setFont(new Font("Tahoma", Font.PLAIN, 15));

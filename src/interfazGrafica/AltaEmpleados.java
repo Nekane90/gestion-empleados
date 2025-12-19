@@ -115,8 +115,25 @@ public class AltaEmpleados extends JDialog {
 					
 					String nombre = tfNombre.getText().trim();
 					String apellido = tfApellido.getText().trim();
+					
+					// Validación de letras en nombre y apellido
+					
+				    if (!nombre.matches("[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+")) {
+				        JOptionPane.showMessageDialog(null, "El nombre solo puede contener letras");
+				        return;
+				    }
+				    if (!apellido.matches("[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+")) {
+				        JOptionPane.showMessageDialog(null, "El apellido solo puede contener letras");
+				        return;
+				    }
+				
 					double salario = Double.parseDouble(tfSalario.getText().trim());// Convertimos a double
 					String dni = tfDni.getText().trim();
+					//Comprobamos el dni que sea valido
+					if (!dniValido(dni)) {
+					    JOptionPane.showMessageDialog(null, "DNI inválido");
+					    return;
+					}
 					
 					//Cogemos la categoria del combo box
 					CategoriaDto catSeleccionada = (CategoriaDto) cbCategoria.getSelectedItem();
@@ -129,7 +146,6 @@ public class AltaEmpleados extends JDialog {
 					
 					Date fecha = recogerFecha();
 					if(fecha == null) {
-					    JOptionPane.showMessageDialog(null,"La fecha no es válida");
 					    return; // No seguimos con el insert
 					}
 
@@ -242,11 +258,10 @@ public class AltaEmpleados extends JDialog {
 	        JOptionPane.showMessageDialog(null,"La fecha debe ser numérica");
 	        return null;
 	    } catch (Exception e) {
-	        JOptionPane.showMessageDialog(null,"Fecha no válida: " + e.getMessage());
+	        JOptionPane.showMessageDialog(null,"Fecha no válida, ejemplo : 10/10/2025 " );
 	        return null;
 	    }
 	}
-	
 	
 
 	private void cargarComboConCategoria() {
@@ -257,7 +272,26 @@ public class AltaEmpleados extends JDialog {
 	    }
 	}
 
+	////Comprobar validez del dni
+	///
+	public static boolean dniValido(String dni) {
+	    if (dni == null || dni.length() != 9) return false;
 
+	    String numeroStr = dni.substring(0, 8);
+	    char letra = Character.toUpperCase(dni.charAt(8));
+
+	    // Comprobar que los primeros 8 caracteres sean números
+	    if (!numeroStr.matches("\\d{8}")) return false;
+
+	    int numero = Integer.parseInt(numeroStr);
+	    char[] letras = {'T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E'};
+	    char letraCorrecta = letras[numero % 23];
+
+	    return letra == letraCorrecta;
+	}
+
+	
+	
 }
 	
 	

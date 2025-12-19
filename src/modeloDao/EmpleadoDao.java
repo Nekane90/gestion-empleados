@@ -153,7 +153,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 
 	
 	/////LISTAR EMPLEADOS POR CATEGORIA -/////
-	///
+	
 	public ArrayList<EmpleadoDto> listarEmpleadosPorCategoria(int idCategoria) {
 		ArrayList<EmpleadoDto> listaEmp= new ArrayList<EmpleadoDto>();
 		PreparedStatement ps=null;
