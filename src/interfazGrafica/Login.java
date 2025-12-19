@@ -80,6 +80,8 @@ public class Login extends JFrame {
 		btAcceder.setBackground(new Color(105, 201, 183));
 		btAcceder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Principal vPrincipal = new Principal();
+				vPrincipal.setVisible(true);
 			}
 		});
 		btAcceder.setFont(new Font("Tahoma", Font.PLAIN, 15));
