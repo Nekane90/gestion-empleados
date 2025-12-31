@@ -16,7 +16,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 	
 	private static final String SQL_INSERT="INSERT INTO empleados(nombre,apellido,dni,salario,fechaAlta,idCategoria) VALUES (?,?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM empleados WHERE idEmpleado = ?";
-	private static final String SQL_UPDATE="UPDATE empleados SET nombre= ?, apellido= ?, dni = ?, salario = ?, fechaAlta = ? WHERE idEmpleado = ?";
+	private static final String SQL_UPDATE="UPDATE empleados SET nombre= ?, apellido= ?, dni = ?, salario = ?, fechaAlta = ?, idCategoria = ? WHERE idEmpleado = ?";
 	private static final String SQL_FIND="SELECT * FROM empleados WHERE idEmpleado = ?";
 	private static final String SQL_FINDALL="SELECT * FROM empleados";
 	private static final String SQL_FINDEMPLEPORCATEGORIA="SELECT * FROM empleados WHERE idCategoria = ?";
@@ -35,7 +35,8 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 			ps.setString(3, emp.getDni());
 			ps.setDouble(4,emp.getSalario());
 			ps.setDate(5, emp.getFechaAlta());
-			ps.setInt(6, emp.getIdcategoria());
+			ps.setInt(6,emp.getIdcategoria());
+
 			
 			if(ps.executeUpdate()>0) return true;
 		}catch (SQLException e) {
@@ -92,8 +93,9 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 			ps.setString(3, emp.getDni());
 			ps.setDouble(4, emp.getSalario());
 			ps.setDate(5, emp.getFechaAlta());
-			ps.setInt(6,emp.getIdEmpleado());
-			
+			ps.setInt(6, emp.getIdcategoria());
+			ps.setInt(7,emp.getIdEmpleado());
+					
 			if(ps.executeUpdate()>0) return true;
 		}catch (SQLException e) {
 			e.printStackTrace();

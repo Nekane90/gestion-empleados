@@ -130,10 +130,10 @@ public class AltaEmpleados extends JDialog {
 					double salario = Double.parseDouble(tfSalario.getText().trim());// Convertimos a double
 					String dni = tfDni.getText().trim();
 					//Comprobamos el dni que sea valido
-					if (!dniValido(dni)) {
+					/*if (!dniValido(dni)) {
 					    JOptionPane.showMessageDialog(null, "DNI inválido");
 					    return;
-					}
+					}*/
 					
 					//Cogemos la categoria del combo box
 					CategoriaDto catSeleccionada = (CategoriaDto) cbCategoria.getSelectedItem();
@@ -266,7 +266,6 @@ public class AltaEmpleados extends JDialog {
 
 	private void cargarComboConCategoria() {
 	    ArrayList<CategoriaDto> listaCat = catDao.listarTodos();
-	    cbCategoria.addItem(null); 
 	    for (CategoriaDto cat : listaCat) {
 	        cbCategoria.addItem(cat); // guardamos el objeto categoria, para luego en el combo box se vea el nombre, pero metamos el id al insert del empleado
 	    }

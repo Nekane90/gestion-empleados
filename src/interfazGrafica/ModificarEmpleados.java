@@ -19,6 +19,9 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Image;
 import java.sql.Date;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
@@ -107,6 +110,7 @@ public class ModificarEmpleados extends JDialog {
 		btModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				
 				int confirmacion =JOptionPane.showConfirmDialog(null,
 						 "¿Esta seguro de querer modificar a "+tfNombre.getText()+" "+ tfApellido.getText()+" ?",
 						 "Confirmar mofidicación",
@@ -114,10 +118,26 @@ public class ModificarEmpleados extends JDialog {
 			
 				 ///Aqui hago la comprobacion de si a pulsado si
 				 if (confirmacion == JOptionPane.YES_OPTION) {
-					 empDto.setNombreEmple(tfNombre.getText().trim());
-					 empDto.setApellidoEmple(tfApellido.getText().trim());
 					 
+					 //Comprobacion de apellido o este vacio y sin numeros		
 					 
+					 String nombre = tfNombre.getText().trim();
+
+					 if (!nombre.matches("[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+") || nombre.isEmpty()) {
+					     JOptionPane.showMessageDialog(null, "El nombre solo puede contener letras y no estar vacio");
+					     return; 
+					 }
+					 empDto.setNombreEmple(nombre);
+					 
+					 //Comprobacion de apellido o este vacio y sin numeros
+					 
+					 String apellido = tfApellido.getText().trim();
+					 if (!apellido.matches("[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+") || apellido.isEmpty()) {
+					     JOptionPane.showMessageDialog(null, "El apellido solo puede contener letras y no estar vacio");
+					     return; 
+					 }
+					 empDto.setApellidoEmple(apellido);
+									 
 					 
 					 //Verificamos que no metan letras en el salario
 					 try {
@@ -128,7 +148,11 @@ public class ModificarEmpleados extends JDialog {
 						    return; // Salimos o cancelamos la acción
 						}
 					 empDto.setDni(tfDni.getText().trim());
-
+					 
+					 //aqui cojo el id de la categoria del combo box
+					 CategoriaDto categoria = (CategoriaDto) cbCategoria.getSelectedItem();
+					 int idCategoria = categoria.getIdCategoria(); 
+					 empDto.setIdcategoria(idCategoria);
 				
 					 Date fecha = null;
 
@@ -136,14 +160,27 @@ public class ModificarEmpleados extends JDialog {
 					     !tfMes.getText().isEmpty() &&
 					     !tfAnio.getText().isEmpty()) {
 
-					     int año = Integer.parseInt(tfAnio.getText());
-					     int mes = Integer.parseInt(tfMes.getText());
-					     int dia = Integer.parseInt(tfDia.getText());
+					     try {
+					         int dia = Integer.parseInt(tfDia.getText());
+					         int mes = Integer.parseInt(tfMes.getText());
+					         int anio = Integer.parseInt(tfAnio.getText());
 
-					     //Con esto formateo la fecha para que tenga 2 digitos mes/dia y 4 el año
-					     String fechaStr = String.format("%04d-%02d-%02d", año, mes, dia);
-					     fecha = Date.valueOf(fechaStr);
+					         fecha = validarFecha(dia, mes, anio);
+					         empDto.setFechaAlta(fecha);
+					         
+
+					     } catch (NumberFormatException e1) {
+					         JOptionPane.showMessageDialog(null,
+					             "Día, mes y año deben ser números");
+					         return;
+
+					     } catch (IllegalArgumentException e1) {
+					         JOptionPane.showMessageDialog(null, e1.getMessage());
+					         return;
+					     }
 					 }
+
+					 
 					 
 					 if(empDao.actualizar(empDto)) {
 						 JOptionPane.showMessageDialog(null,"Empleado modificado correctamente");
@@ -230,6 +267,8 @@ public class ModificarEmpleados extends JDialog {
 				cbCategoria = new JComboBox();
 				cbCategoria.setBounds(414, 203, 158, 25);
 				contentPanel.add(cbCategoria);
+				///Cargo el combo box con las categorias
+				cargarComboConCategoria();
 				
 				JLabel lbIdEmpleado = new JLabel("Id empleado:");
 				lbIdEmpleado.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -262,7 +301,6 @@ public class ModificarEmpleados extends JDialog {
 
 	private void cargarComboConCategoria() {
 	    ArrayList<CategoriaDto> listaCat = catDao.listarTodos();
-	    cbCategoria.addItem(null); 
 	    for (CategoriaDto cat : listaCat) {
 	        cbCategoria.addItem(cat); // guardamos el objeto categoria, para luego en el combo box se vea el nombre, pero metamos el id al insert del empleado
 	    }
@@ -290,6 +328,18 @@ public class ModificarEmpleados extends JDialog {
 		    }
 		   
 	  		empDto = empDao.buscar(codigo);
+	  		
+	  		//aqui hacemos qie en comboBox aparezca la categoria del empleado que buscamos
+	  		int idCatEmpleado = empDto.getIdcategoria(); 
+
+	  		for (int i = 0; i < cbCategoria.getItemCount(); i++) {
+	  		    CategoriaDto c = (CategoriaDto) cbCategoria.getItemAt(i);
+	  		    if (c.getIdCategoria() == idCatEmpleado) {
+	  		        cbCategoria.setSelectedItem(c); 
+	  		        break;
+	  		    }
+	  		}
+
 	  		//Comprobamos que no sea null el Id
 	  		if(empDto == null) {
 	  			JOptionPane.showMessageDialog(null, "No existe ese Id de empleado");
@@ -300,12 +350,15 @@ public class ModificarEmpleados extends JDialog {
 	  		tfDni.setText(empDto.getDni());
 	  		tfSalario.setText(Double.toString(empDto.getSalario())); // asi paso a string el double
 	  		
-	  		//sacamos la fecha para poder partirla en dia/mes/año
-	  		
+	  		//Convierto la fecha a localDate
 	  		Date fecha = empDto.getFechaAlta();
-	  		tfDia.setText(String.valueOf(fecha.getDay()));
-	  		tfMes.setText(String.valueOf(fecha.getMonth()));
-	  		tfAnio.setText(String.valueOf(fecha.getYear()));
+
+	  		LocalDate localDate = fecha.toLocalDate();
+
+	  		tfDia.setText(String.valueOf(localDate.getDayOfMonth()));
+	  		tfMes.setText(String.valueOf(localDate.getMonthValue()));
+	  		tfAnio.setText(String.valueOf(localDate.getYear()));
+
 	  		}
 	 
 	  }
@@ -326,6 +379,25 @@ public class ModificarEmpleados extends JDialog {
 
 		    return letra == letraCorrecta;
 		}
+	  
+	  ///Metodo para validar la fecha que sea entre 1950 y año actual
+	  public static Date validarFecha(int dia, int mes, int anio) {
+		    int anioActual = Year.now().getValue();
+
+		    if (anio < 1950 || anio > anioActual) {
+		        throw new IllegalArgumentException(
+		            "El año debe estar entre 1950 y " + anioActual
+		        );
+		    }
+
+		    try {
+		        LocalDate localDate = LocalDate.of(anio, mes, dia);
+		        return Date.valueOf(localDate); 
+		    } catch (DateTimeException e) {
+		        throw new IllegalArgumentException("La fecha no es válida");
+		    }
+		}
+
 
 }
 
