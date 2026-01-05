@@ -7,7 +7,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import modeloDao.EmpleadoDao;
+import modeloDto.CategoriaDto;
+import modeloDto.EmpleadoDto;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 
@@ -15,6 +22,8 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
 public class EliminarEmpleados extends JDialog {
@@ -28,11 +37,14 @@ public class EliminarEmpleados extends JDialog {
 	private JTextField tfDia;
 	private JTextField tfMes;
 	private JTextField tfAnio;
+	EmpleadoDao emp = new EmpleadoDao();
+	EmpleadoDto empleadodto = new EmpleadoDto();
+	private JTextField txtID;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/**public static void main(String[] args) {
 		try {
 			EliminarEmpleados dialog = new EliminarEmpleados();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -41,12 +53,12 @@ public class EliminarEmpleados extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
+	 */
 	/**
 	 * Create the dialog.
 	 */
 	public EliminarEmpleados() {
-		setBounds(100, 100, 648, 497);
+		setBounds(100, 100, 648, 539);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -60,56 +72,81 @@ public class EliminarEmpleados extends JDialog {
 		
 		JLabel lbNombre = new JLabel("Nombre:");
 		lbNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbNombre.setBounds(61, 103, 104, 25);
+		lbNombre.setBounds(61, 146, 104, 25);
 		contentPanel.add(lbNombre);
 		
 		JLabel lbApellidos = new JLabel("Apellido:");
 		lbApellidos.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbApellidos.setBounds(61, 153, 104, 25);
+		lbApellidos.setBounds(61, 194, 104, 25);
 		contentPanel.add(lbApellidos);
 		
 		JLabel lbDni = new JLabel("Dni:");
 		lbDni.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbDni.setBounds(61, 193, 104, 25);
+		lbDni.setBounds(61, 238, 104, 25);
 		contentPanel.add(lbDni);
 		
 		JLabel lbSalario = new JLabel("Salario:");
 		lbSalario.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbSalario.setBounds(61, 239, 104, 25);
+		lbSalario.setBounds(61, 286, 104, 25);
 		contentPanel.add(lbSalario);
 		
 		JLabel lbFechaAlta = new JLabel("Fecha de alta:");
 		lbFechaAlta.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbFechaAlta.setBounds(61, 290, 104, 25);
+		lbFechaAlta.setBounds(61, 329, 104, 25);
 		contentPanel.add(lbFechaAlta);
 		
 		tfNombre = new JTextField();
-		tfNombre.setBounds(175, 108, 154, 25);
+		tfNombre.setBounds(175, 148, 154, 25);
 		contentPanel.add(tfNombre);
 		tfNombre.setColumns(10);
 		
 		JLabel lblDia = new JLabel("Dia:");
 		lblDia.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblDia.setBounds(61, 332, 66, 25);
+		lblDia.setBounds(61, 364, 66, 25);
 		contentPanel.add(lblDia);
 		
 		JLabel lbMes = new JLabel("Mes:");
 		lbMes.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbMes.setBounds(183, 332, 66, 25);
+		lbMes.setBounds(175, 364, 66, 25);
 		contentPanel.add(lbMes);
 		
 		JLabel lbAño = new JLabel("Año:");
 		lbAño.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbAño.setBounds(305, 332, 66, 25);
+		lbAño.setBounds(300, 364, 66, 25);
 		contentPanel.add(lbAño);
 		
 		JButton btEliminar = new JButton("E L I M I N A R");
 		btEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int opcion =JOptionPane.showConfirmDialog(null,
+						 "¿Esta seguro de querer borrar a "+tfNombre.getText()+" "+ tfApellido.getText()+" ?",
+						 "Confirmar mofidicación",
+						 JOptionPane.YES_NO_OPTION);
+
+				if (opcion == JOptionPane.YES_OPTION) {
+				    // AQUÍ se borra
+					int idEmpleado = Integer.parseInt(txtID.getText()); //coge id
+					boolean borrar = emp.borrar(idEmpleado); //borra de la bd el empleado con ese id
+					txtID.setText("");
+					tfNombre.setText(" ");
+		            tfApellido.setText(" ");
+		            tfDni.setText(" ");
+		            tfSalario.setText(" ");
+		            tfDia.setText(" ");
+		            tfMes.setText(" ");
+		            tfAnio.setText(" ");
+				    if (borrar) {
+				    	JOptionPane.showMessageDialog(null,"Empleado eliminado");
+				    } else {
+				    	JOptionPane.showMessageDialog(null,"No se pudo eliminar al empleado");
+				    	
+				    }
+				}
+
 			}
 		});
 		btEliminar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btEliminar.setBounds(290, 406, 169, 32);
+		btEliminar.setBounds(300, 438, 169, 32);
 		contentPanel.add(btEliminar);
 		
 		JButton btSalir = new JButton("S A L I R");
@@ -119,7 +156,7 @@ public class EliminarEmpleados extends JDialog {
 			}
 		});
 		btSalir.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btSalir.setBounds(486, 406, 126, 32);
+		btSalir.setBounds(479, 438, 126, 32);
 		contentPanel.add(btSalir);
 		
 		JLabel lbImagen = new JLabel("New label");
@@ -135,32 +172,89 @@ public class EliminarEmpleados extends JDialog {
 				
 				tfApellido = new JTextField();
 				tfApellido.setColumns(10);
-				tfApellido.setBounds(175, 153, 154, 25);
+				tfApellido.setBounds(175, 196, 154, 25);
 				contentPanel.add(tfApellido);
 				
 				tfDni = new JTextField();
 				tfDni.setColumns(10);
-				tfDni.setBounds(175, 193, 154, 25);
+				tfDni.setBounds(175, 240, 154, 25);
 				contentPanel.add(tfDni);
 				
 				tfSalario = new JTextField();
 				tfSalario.setColumns(10);
-				tfSalario.setBounds(175, 244, 154, 25);
+				tfSalario.setBounds(175, 286, 154, 25);
 				contentPanel.add(tfSalario);
 				
 				tfDia = new JTextField();
 				tfDia.setColumns(10);
-				tfDia.setBounds(98, 334, 53, 25);
+				tfDia.setBounds(93, 366, 53, 25);
 				contentPanel.add(tfDia);
 				
 				tfMes = new JTextField();
 				tfMes.setColumns(10);
-				tfMes.setBounds(221, 334, 53, 25);
+				tfMes.setBounds(214, 366, 53, 25);
 				contentPanel.add(tfMes);
 				
 				tfAnio = new JTextField();
 				tfAnio.setColumns(10);
-				tfAnio.setBounds(344, 334, 53, 25);
+				tfAnio.setBounds(339, 366, 53, 25);
 				contentPanel.add(tfAnio);
+				
+				JButton btBuscar = new JButton("B U S C A R");
+				btBuscar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						empleadodto = null;
+					    String textoCodigo = txtID.getText().trim();
+
+					    // Verificamos si está vacío
+					    if (textoCodigo.isEmpty()) {
+					        JOptionPane.showMessageDialog(null, "No puede estar el código vacío");
+					        return; // salimos del método para no seguir ejecutando
+					    }	
+						int codigo;
+						try {
+							codigo = Integer.parseInt(txtID.getText());
+					    } catch (NumberFormatException ex) {
+					        JOptionPane.showMessageDialog(null, "El código debe ser un número válido");
+					        return;
+					    }
+					   
+				  		empleadodto = emp.buscar(codigo);
+				  		
+
+				  		//Comprobamos que no sea null el Id
+				  		if(empleadodto == null) {
+				  			JOptionPane.showMessageDialog(null, "No existe ese Id de empleado");
+				  		}else {
+				  		
+				  		tfNombre.setText(empleadodto.getNombreEmple());
+				  		tfApellido.setText(empleadodto.getApellidoEmple());
+				  		tfDni.setText(empleadodto.getDni());
+				  		tfSalario.setText(Double.toString(empleadodto.getSalario())); // asi paso a string el double
+				  		
+				  		//Convierto la fecha a localDate
+				  		Date fecha = empleadodto.getFechaAlta();
+
+				  		LocalDate localDate = fecha.toLocalDate();
+
+				  		tfDia.setText(String.valueOf(localDate.getDayOfMonth()));
+				  		tfMes.setText(String.valueOf(localDate.getMonthValue()));
+				  		tfAnio.setText(String.valueOf(localDate.getYear()));
+				  		}
+					}
+				});
+				btBuscar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+				btBuscar.setBounds(164, 438, 126, 32);
+				contentPanel.add(btBuscar);
+				
+				JLabel lblid = new JLabel("ID Empleado:");
+				lblid.setFont(new Font("Tahoma", Font.PLAIN, 14));
+				lblid.setBounds(61, 103, 104, 25);
+				contentPanel.add(lblid);
+				
+				txtID = new JTextField();
+				txtID.setColumns(10);
+				txtID.setBounds(175, 105, 154, 25);
+				contentPanel.add(txtID);
 	}
 }

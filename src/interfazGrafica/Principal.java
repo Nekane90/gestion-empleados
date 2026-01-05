@@ -49,6 +49,12 @@ public class Principal extends JDialog {
 		contentPanel.add(btAlta);
 		
 		JButton btBaja = new JButton("B A J A");
+		btBaja.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EliminarEmpleados baja = new EliminarEmpleados();
+				baja.setVisible(true);
+			}
+		});
 		btBaja.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btBaja.setBounds(58, 186, 168, 32);
 		contentPanel.add(btBaja);
@@ -65,6 +71,12 @@ public class Principal extends JDialog {
 		contentPanel.add(btModificar);
 		
 		JButton btConsultar = new JButton("C O N S U L T A R");
+		btConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Consulta consul = new Consulta();
+				consul.setVisible(true);
+			}
+		});
 		btConsultar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btConsultar.setBounds(58, 316, 168, 32);
 		contentPanel.add(btConsultar);
@@ -73,6 +85,10 @@ public class Principal extends JDialog {
 		btFichaje.setBackground(new Color(59,164,147));
 		btFichaje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+					Fichaje fichaje = new Fichaje();
+					fichaje.setVisible(true);
+				
 			}
 		});
 		btFichaje.setBackground(new Color(59, 164, 147));
