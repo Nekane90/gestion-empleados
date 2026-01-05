@@ -14,6 +14,8 @@ import java.awt.Image;
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class EliminarEmpleados extends JDialog {
 
@@ -102,11 +104,20 @@ public class EliminarEmpleados extends JDialog {
 		contentPanel.add(lbAño);
 		
 		JButton btEliminar = new JButton("E L I M I N A R");
+		btEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btEliminar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btEliminar.setBounds(290, 406, 169, 32);
 		contentPanel.add(btEliminar);
 		
 		JButton btSalir = new JButton("S A L I R");
+		btSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		btSalir.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btSalir.setBounds(486, 406, 126, 32);
 		contentPanel.add(btSalir);
