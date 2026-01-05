@@ -14,7 +14,7 @@ import modeloDto.EmpleadoDto;
 public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 	
 	
-	private static final String SQL_INSERT="INSERT INTO empleados(nombre,apellido,dni,salario,fechaAlta,idCategoria) VALUES (?,?,?,?,?,?)";
+	private static final String SQL_INSERT="INSERT INTO empleados(nombre,apellido,dni,salario,fechaAlta,idCategoria,contraseña) VALUES (?,?,?,?,?,?,?)";
 	private static final String SQL_DELETE="DELETE FROM empleados WHERE idEmpleado = ?";
 	private static final String SQL_UPDATE="UPDATE empleados SET nombre= ?, apellido= ?, dni = ?, salario = ?, fechaAlta = ?, idCategoria = ? WHERE idEmpleado = ?";
 	private static final String SQL_FIND="SELECT * FROM empleados WHERE idEmpleado = ?";
@@ -36,6 +36,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 			ps.setDouble(4,emp.getSalario());
 			ps.setDate(5, emp.getFechaAlta());
 			ps.setInt(6,emp.getIdcategoria());
+			ps.setString(7,emp.getContrasenia());
 
 			
 			if(ps.executeUpdate()>0) return true;
@@ -123,7 +124,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 			ResultSet rs = ps.executeQuery();
 			if ( rs.next() == true) {
 				empe = new EmpleadoDto(rs.getInt("idEmpleado"), rs.getString("nombre"), rs.getString("apellido"),rs.getString("dni"),rs.getDouble("salario"),
-						rs.getDate("fechaAlta"),rs.getInt("idCategoria"));
+						rs.getDate("fechaAlta"),rs.getInt("idCategoria"), rs.getString("contraseña"));
 			}
 			rs.close();
 		}catch (SQLException e) {
@@ -141,7 +142,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 			ResultSet rs = ps.executeQuery();
 			while ( rs.next()) {
 				EmpleadoDto empe = new EmpleadoDto(rs.getInt("idEmpleado"), rs.getString("nombre"), rs.getString("apellido"),rs.getString("dni"),rs.getDouble("salario"),
-						rs.getDate("fechaAlta"),rs.getInt("idCategoria"));
+						rs.getDate("fechaAlta"),rs.getInt("idCategoria"),rs.getString("contraseña"));
 				listaEmp.add(empe);
 				
 			}
@@ -168,7 +169,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 			while(rs.next()) {
 				
 				listaEmp.add(new EmpleadoDto(rs.getInt("idEmpleado"), rs.getString("nombre"), rs.getString("apellido"),rs.getString("dni"),rs.getDouble("salario"),
-						rs.getDate("fechaAlta"),rs.getInt("idCategoria")));
+						rs.getDate("fechaAlta"),rs.getInt("idCategoria"),rs.getString("contraseña")));
 				
 			}
 		}catch (SQLException e) {

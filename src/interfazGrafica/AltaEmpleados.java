@@ -7,6 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import java.security.MessageDigest;
+import java.util.Base64;
+
 import modeloDao.CategoriaDao;
 import modeloDao.EmpleadoDao;
 import modeloDto.CategoriaDto;
@@ -22,11 +26,15 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.security.MessageDigest;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.JPasswordField;
+import javax.swing.JCheckBox;
+
 
 public class AltaEmpleados extends JDialog {
 
@@ -42,10 +50,11 @@ public class AltaEmpleados extends JDialog {
 	private JComboBox cbCategoria;
 	EmpleadoDao empleadoDao = new EmpleadoDao();
 	CategoriaDao catDao = new CategoriaDao();
+	private JPasswordField tfPassword;
 
 
 	public AltaEmpleados() {
-		setBounds(100, 100, 648, 497);
+		setBounds(100, 100, 673, 493);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -106,8 +115,10 @@ public class AltaEmpleados extends JDialog {
 		btAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				String password = new String(tfPassword.getPassword()).trim();
+				
 				if( tfNombre.getText().isEmpty() ||tfApellido.getText().isEmpty()|| tfSalario.getText().isEmpty()|| tfDia.getText().isEmpty()
-						||tfAnio.getText().isEmpty()|| tfMes.getText().isEmpty() ||tfDni.getText().isEmpty()) {
+						||tfAnio.getText().isEmpty()|| tfMes.getText().isEmpty() ||tfDni.getText().isEmpty() || password.isEmpty()) {
 					JOptionPane.showMessageDialog(null,"Tienes que rellenar todas las casillas");
 			        return; // Salimos del método si hay algún campo vacío
 				}
@@ -115,6 +126,11 @@ public class AltaEmpleados extends JDialog {
 					
 					String nombre = tfNombre.getText().trim();
 					String apellido = tfApellido.getText().trim();
+					//Comprobamos que la contraseña sea de 6 caracteres
+					if (password.length() < 6) {
+		                JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 6 caracteres");
+		                return;
+		            }
 					
 					// Validación de letras en nombre y apellido
 					
@@ -148,9 +164,11 @@ public class AltaEmpleados extends JDialog {
 					if(fecha == null) {
 					    return; // No seguimos con el insert
 					}
+					
+					String passwordEncriptada = encriptarLocal(password);
 
 					
-					EmpleadoDto emp = new EmpleadoDto(nombre,apellido,dni,salario,fecha,idCategoria);
+					EmpleadoDto emp = new EmpleadoDto(nombre,apellido,dni,salario,fecha,idCategoria,passwordEncriptada);
 			
 					if(empleadoDao.insertar(emp)) {
 						JOptionPane.showMessageDialog(null,"Usuario registrado");
@@ -229,6 +247,32 @@ public class AltaEmpleados extends JDialog {
 				lbCategoria.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				lbCategoria.setBounds(427, 135, 159, 33);
 				contentPanel.add(lbCategoria);
+				
+				JLabel lbContraseña = new JLabel("Contraseña:");
+				lbContraseña.setFont(new Font("Tahoma", Font.PLAIN, 14));
+				lbContraseña.setBounds(424, 216, 159, 33);
+				contentPanel.add(lbContraseña);
+				
+				tfPassword = new JPasswordField();
+				tfPassword.setBounds(414, 259, 160, 25);
+				contentPanel.add(tfPassword);
+				
+				JCheckBox cbVer = new JCheckBox("Ver");
+				cbVer.addActionListener(new ActionListener() {
+				///Aqui se ve la contraseña
+				    public void actionPerformed(ActionEvent e) {
+				        if (cbVer.isSelected()) {
+				            // (char) 0 hace que el texto sea visible (quita los puntos)
+				            tfPassword.setEchoChar((char) 0); 
+				        } else {
+				            tfPassword.setEchoChar('•'); 
+				        }
+				    }
+				});
+				cbVer.setBackground(new Color(225, 243, 225));
+				cbVer.setFont(new Font("Tahoma", Font.PLAIN, 14));
+				cbVer.setBounds(580, 261, 134, 25);
+				contentPanel.add(cbVer);
 				cargarComboConCategoria();
 	}
 	
@@ -289,8 +333,18 @@ public class AltaEmpleados extends JDialog {
 	    return letra == letraCorrecta;
 	}
 
-	
-	
+	///Metodo para encriptar la contraseña
+	public String encriptarLocal(String password) {
+	    try {
+	        
+	        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+	        byte[] hash = digest.digest(password.getBytes("UTF-8"));
+	        
+	        return Base64.getEncoder().encodeToString(hash);
+	    } catch (Exception ex) {
+	        throw new RuntimeException(ex);
+	    }
+	}
 }
 	
 	

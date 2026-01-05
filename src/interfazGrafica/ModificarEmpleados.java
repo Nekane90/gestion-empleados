@@ -30,6 +30,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class ModificarEmpleados extends JDialog {
 
@@ -47,6 +48,7 @@ public class ModificarEmpleados extends JDialog {
 	EmpleadoDto empDto = new EmpleadoDto();
 	CategoriaDao catDao = new CategoriaDao();
 	private JTextField tfIdEmpleado;
+	private JPasswordField passwordField;
 
 	public ModificarEmpleados() {
 		setBounds(100, 100, 671, 522);
@@ -290,6 +292,17 @@ public class ModificarEmpleados extends JDialog {
 				btBuscar.setBounds(80, 431, 169, 32);
 				contentPanel.add(btBuscar);
 				
+				passwordField = new JPasswordField();
+				passwordField.setBounds(414, 273, 158, 25);
+				contentPanel.add(passwordField);
+				
+				JLabel lbPassword = new JLabel("Contraseña:");
+				lbPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
+				lbPassword.setBounds(440, 238, 132, 25);
+				contentPanel.add(lbPassword);
+				
+				
+				
 				
 				
 				
@@ -397,8 +410,6 @@ public class ModificarEmpleados extends JDialog {
 		        throw new IllegalArgumentException("La fecha no es válida");
 		    }
 		}
-
-
 }
 
 	

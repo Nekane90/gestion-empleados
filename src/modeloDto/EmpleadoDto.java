@@ -12,10 +12,11 @@ public class EmpleadoDto {
 	private double salario;
 	private Date fechaAlta;
 	private int idcategoria;
+	private String contrasenia;
 	
 	//Constructor
 	public EmpleadoDto(int idEmpleado, String nombre, String apellido, String dni, Double salario, Date fechaAlta,
-			int idcategoria) {
+			int idcategoria,String contrasenia) {
 		super();
 		this.idEmpleado = idEmpleado;
 		this.nombre = nombre;
@@ -24,9 +25,10 @@ public class EmpleadoDto {
 		this.salario = salario;
 		this.fechaAlta = fechaAlta;
 		this.idcategoria = idcategoria;
+		this.contrasenia = contrasenia;
 	}
 	
-	public EmpleadoDto( String nombre, String apellido, String dni, double salario, Date fechaAlta,int idCategoria) {
+	public EmpleadoDto( String nombre, String apellido, String dni, double salario, Date fechaAlta,int idCategoria,String contrasenia) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -34,6 +36,7 @@ public class EmpleadoDto {
 		this.salario = salario;
 		this.fechaAlta = fechaAlta;
 		this.idcategoria = idCategoria;
+		this.contrasenia = contrasenia;
 		
 	}
 	
@@ -101,6 +104,13 @@ public class EmpleadoDto {
 
 	public void setIdcategoria(int idcategoria) {
 		this.idcategoria = idcategoria;
+	}
+	
+	public String getContrasenia() {
+		return contrasenia;
+	}
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
 	}
 
 	
