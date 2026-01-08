@@ -13,10 +13,10 @@ public class Fichaje extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 
-	/**
-	 * Launch the application.
-	 */
-	/**public static void main(String[] args) {
+	
+	 /** Launch the application.
+	*/
+	public static void main(String[] args) {
 		try {
 			Fichaje dialog = new Fichaje();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -25,7 +25,7 @@ public class Fichaje extends JDialog {
 			e.printStackTrace();
 		}
 	}
-*/
+
 	/**
 	 * Create the dialog.
 	 */
