@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 public class FichajeDto {
 	
-	private int idFichaje;
+	
 	private int idEmpleado;
 	private Date fecha;
 	private Time horaEntrada;
@@ -17,7 +17,59 @@ public class FichajeDto {
 	
 	//Constructores
 	
-	public FichajeDto(int idFichaje, int idEmpleado, Date fecha, Time horaEntrada, Time horaSalida,
+
+
+	public int getIdEmpleado() {
+		return idEmpleado;
+	}
+
+
+	public void setIdEmpleado(int idEmpleado) {
+		this.idEmpleado = idEmpleado;
+	}
+
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+
+	public Time getHoraEntrada() {
+		return horaEntrada;
+	}
+
+
+	public void setHoraEntrada(Time horaEntrada) {
+		this.horaEntrada = horaEntrada;
+	}
+
+
+	public Time getHoraSalida() {
+		return horaSalida;
+	}
+
+
+	public void setHoraSalida(Time horaSalida) {
+		this.horaSalida = horaSalida;
+	}
+
+
+	public String getTipoTrabajo() {
+		return tipoTrabajo;
+	}
+
+
+	public void setTipoTrabajo(String tipoTrabajo) {
+		this.tipoTrabajo = tipoTrabajo;
+	}
+
+
+	public FichajeDto( int idEmpleado, Date fecha, Time horaEntrada, Time horaSalida,
 			String tipoTrabajo) {
 		super();
 		
@@ -27,7 +79,7 @@ public class FichajeDto {
 		} else {
 		    throw new IllegalArgumentException("Tipo de trabajo no válido: " + tipoTrabajo);
 		}
-		this.idFichaje = idFichaje;
+		
 		this.idEmpleado = idEmpleado;
 		this.fecha = fecha;
 		this.horaEntrada = horaEntrada;
@@ -40,7 +92,7 @@ public class FichajeDto {
 	///
 	@Override
 	public int hashCode() {
-		return Objects.hash(fecha, horaEntrada, horaSalida, idEmpleado, idFichaje, tipoTrabajo);
+		return Objects.hash(fecha, horaEntrada, horaSalida, idEmpleado, tipoTrabajo);
 	}
 
 	@Override
@@ -53,8 +105,7 @@ public class FichajeDto {
 			return false;
 		FichajeDto other = (FichajeDto) obj;
 		return Objects.equals(fecha, other.fecha) && Objects.equals(horaEntrada, other.horaEntrada)
-				&& Objects.equals(horaSalida, other.horaSalida) && idEmpleado == other.idEmpleado
-				&& idFichaje == other.idFichaje && Objects.equals(tipoTrabajo, other.tipoTrabajo);
+				&& Objects.equals(horaSalida, other.horaSalida) && idEmpleado == other.idEmpleado;
 	}
 	
 	

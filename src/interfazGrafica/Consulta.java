@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 import modeloDao.EmpleadoDao;
 import modeloDto.EmpleadoDto;
+import java.awt.Color;
 
 
 
@@ -49,6 +50,7 @@ public class Consulta extends JDialog {
 	public Consulta() {
 		setBounds(100, 100, 702, 449);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(225, 243, 225));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
