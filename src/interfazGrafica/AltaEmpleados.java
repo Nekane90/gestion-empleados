@@ -156,11 +156,12 @@ public class AltaEmpleados extends JDialog {
 						return;	}
 			
 					String dni = tfDni.getText().trim();
+					
 					//Comprobamos el dni que sea valido
-					/*if (!dniValido(dni)) {
+					if (!dniValido(dni)) {
 					    JOptionPane.showMessageDialog(null, "DNI inválido");
 					    return;
-					}*/
+					}
 					
 					//Cogemos la categoria del combo box
 					CategoriaDto catSeleccionada = (CategoriaDto) cbCategoria.getSelectedItem();

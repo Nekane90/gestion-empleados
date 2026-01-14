@@ -3,12 +3,15 @@ package interfazGrafica;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
@@ -33,26 +36,13 @@ public class Consulta extends JDialog {
 	private JTable tablaEmp;
 	private static EmpleadoDao empdao=new EmpleadoDao();
 	private ArrayList<EmpleadoDto> empleados;
-	/**
-	 * Launch the application.
-	 */
-	/**public static void main(String[] args) {
-		try {
-			Consulta dialog = new Consulta();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-*/
+	
 	/**
 	 * Create the dialog.
 	 */
 	public Consulta() {
 		setFont(new Font("Dialog", Font.PLAIN, 14));
 		setTitle("Consultar Empleados");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));
 		setBounds(100, 100, 702, 449);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
@@ -94,6 +84,18 @@ public class Consulta extends JDialog {
 		btSalir.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btSalir.setBounds(550, 353, 85, 32);
 		contentPanel.add(btSalir);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(513, 10, 153, 76);
+		contentPanel.add(lblNewLabel);
+		
+		// Cargar la imagen original
+				ImageIcon iconOriginal = new ImageIcon("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png");
+				// Escalar la imagen al tamaño del JLabel
+				Image img = iconOriginal.getImage();
+				Image imgEscalada = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
+				lblNewLabel.setIcon(new ImageIcon(imgEscalada));
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

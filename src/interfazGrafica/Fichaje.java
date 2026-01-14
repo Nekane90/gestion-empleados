@@ -254,6 +254,7 @@ public class Fichaje extends JDialog {
 			        JOptionPane.showMessageDialog(null, "Selecciona Entrada o Salida");
 			        return;
 			    }
+			    dispose();
 
 			}
 		});
