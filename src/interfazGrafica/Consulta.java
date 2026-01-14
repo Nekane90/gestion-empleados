@@ -20,7 +20,10 @@ import javax.swing.table.DefaultTableModel;
 import modeloDao.EmpleadoDao;
 import modeloDto.EmpleadoDto;
 import java.awt.Color;
+<<<<<<< HEAD
 import java.awt.Toolkit;
+=======
+>>>>>>> f08ef62fb5b9ffb1d81350a0aee8e3e7b4ded68d
 
 
 
