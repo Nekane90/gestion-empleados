@@ -19,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
 
 import modeloDao.EmpleadoDao;
 import modeloDto.EmpleadoDto;
+import java.awt.Color;
+import java.awt.Toolkit;
 
 
 
@@ -47,8 +49,12 @@ public class Consulta extends JDialog {
 	 * Create the dialog.
 	 */
 	public Consulta() {
+		setFont(new Font("Dialog", Font.PLAIN, 14));
+		setTitle("Consultar Empleados");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));
 		setBounds(100, 100, 702, 449);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(new Color(225, 243, 225));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
@@ -60,6 +66,7 @@ public class Consulta extends JDialog {
 		}
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(new Color(225, 243, 225));
 		scrollPane.setBounds(57, 109, 578, 209);
 		contentPanel.add(scrollPane);
 		

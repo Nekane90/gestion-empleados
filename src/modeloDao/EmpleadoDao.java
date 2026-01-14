@@ -1,9 +1,11 @@
 package modeloDao;
 
+import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 
 import javax.swing.JOptionPane;
 
@@ -20,6 +22,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 	private static final String SQL_FIND="SELECT * FROM empleados WHERE idEmpleado = ?";
 	private static final String SQL_FINDALL="SELECT * FROM empleados";
 	private static final String SQL_FINDEMPLEPORCATEGORIA="SELECT * FROM empleados WHERE idCategoria = ?";
+	private static final String SQL_FIND2 = "SELECT nombre, contraseña, idCategoria FROM empleados WHERE idEmpleado = ?";
 	
 	private Conexion con= Conexion.getInstancia();
 
@@ -186,8 +189,53 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 		return listaEmp;
 	}
 	
+	////Validar el login
+
+	public EmpleadoDto validarLogin(int idEmpleado, String passwordIntroducida) {
+	    
+	    PreparedStatement ps=null;
+	    try {
+	    	ps=con.getCon().prepareStatement(SQL_FIND);
+	        ps.setInt(1, idEmpleado);
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) {
+	            String passGuardada = rs.getString("contraseña"); 
+	            
+	            // Encriptamos la que acaba de escribir para comparar
+	            String passEncriptadaAhora = encriptarLocal(passwordIntroducida);
+	            if (passEncriptadaAhora.equals(passGuardada)) {
+	                // Si coinciden, creamos el objeto con sus datos y rol
+	                return new EmpleadoDto(
+	                    rs.getString("nombre"),
+	                    rs.getString("apellido"),
+	                    rs.getString("dni"),
+	                    rs.getDouble("salario"),
+	                    rs.getDate("fechaAlta"),
+	                    rs.getInt("idCategoria"),
+	                    rs.getString("contraseña")
+	                    
+	                );
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return null; 
+	}
 	
 	
+	///Metodo para encriptar la contraseña
+		public String encriptarLocal(String password) {
+		    try {
+		        
+		        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		        byte[] hash = digest.digest(password.getBytes("UTF-8"));
+		        
+		        return Base64.getEncoder().encodeToString(hash);
+		    } catch (Exception ex) {
+		        throw new RuntimeException(ex);
+		    }
+		}
 	
 	
 

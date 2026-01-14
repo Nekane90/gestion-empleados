@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class EliminarEmpleados extends JDialog {
 
@@ -58,6 +59,9 @@ public class EliminarEmpleados extends JDialog {
 	 * Create the dialog.
 	 */
 	public EliminarEmpleados() {
+		setFont(new Font("Dialog", Font.BOLD, 14));
+		setTitle("Eliminar Empleados");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));
 		setBounds(100, 100, 648, 539);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));

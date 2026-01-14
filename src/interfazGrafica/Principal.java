@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import modeloDto.EmpleadoDto;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
@@ -16,6 +19,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class Principal extends JDialog {
 
@@ -24,7 +28,11 @@ public class Principal extends JDialog {
 	
 	
 
-	public Principal() {
+	public Principal(EmpleadoDto emp) {
+		setFont(new Font("Dialog", Font.BOLD, 14));
+		setTitle("Gestion Del Personal");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));//
+		
 		setBounds(100, 100, 715, 471);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
@@ -62,7 +70,7 @@ public class Principal extends JDialog {
 		JButton btModificar = new JButton("M O D I F I C A R ");
 		btModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ModificarEmpleados vModificar = new ModificarEmpleados();
+				ModificarEmpleados vModificar = new ModificarEmpleados(emp);
 				vModificar.setVisible(true);
 			}
 		});
@@ -117,6 +125,31 @@ public class Principal extends JDialog {
 		Image img = iconOriginal.getImage();
 		Image imgEscalada = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
 		lblNewLabel.setIcon(new ImageIcon(imgEscalada));
+		
+	
+				if (emp == null) return;
+				
+				if ( emp.getIdcategoria() == 1 ) { //camarero
+					btAlta.setEnabled(false);
+					btBaja.setEnabled(false);
+					btConsultar.setEnabled(false);
+						
+				}
+				else if (emp.getIdcategoria() == 2) {//cocinero
+					btAlta.setEnabled(false);
+					btBaja.setEnabled(false);
+					btConsultar.setEnabled(false);
+					
+					
+				}
+				
+				else if (emp.getIdcategoria() == 4){ //limpieza
+					btAlta.setEnabled(false);
+					btBaja.setEnabled(false);
+					btConsultar.setEnabled(false);
+					
+					
+				}
 		
 		
 	}

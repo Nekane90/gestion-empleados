@@ -39,6 +39,11 @@ public class EmpleadoDto {
 		this.contrasenia = contrasenia;
 		
 	}
+	public EmpleadoDto(String nombre, int idCategoria) {
+		super();
+		this.nombre = nombre;
+		this.idcategoria = idCategoria;
+	}
 	
 	
 	//Constructor vacio

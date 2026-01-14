@@ -31,6 +31,7 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import java.awt.Toolkit;
 
 public class ModificarEmpleados extends JDialog {
 
@@ -44,13 +45,17 @@ public class ModificarEmpleados extends JDialog {
 	private JTextField tfMes;
 	private JTextField tfAnio;
 	private JComboBox cbCategoria;
+	private JButton btBuscar;
 	EmpleadoDao empDao = new EmpleadoDao();
 	EmpleadoDto empDto = new EmpleadoDto();
 	CategoriaDao catDao = new CategoriaDao();
 	private JTextField tfIdEmpleado;
-	private JPasswordField passwordField;
-
+	
+	
 	public ModificarEmpleados() {
+		setFont(new Font("Dialog", Font.BOLD, 14));
+		setTitle("Modificar Empleados");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));
 		setBounds(100, 100, 671, 522);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
@@ -141,14 +146,20 @@ public class ModificarEmpleados extends JDialog {
 					 empDto.setApellidoEmple(apellido);
 									 
 					 
-					 //Verificamos que no metan letras en el salario
+					 //Verificamos que no metan letras en el salario y no sea negativo
 					 try {
+						 	
 						    double salario = Double.parseDouble(tfSalario.getText().trim());
+						    if( salario < 0 ) {
+						    	JOptionPane.showMessageDialog(null,"No puede ser negativo");    	
+						    	return;	
+						    }
 						    empDto.setSalario(salario);
 						} catch (NumberFormatException e1) {
 						    JOptionPane.showMessageDialog(null, "Introduce un número válido en el salario");
 						    return; // Salimos o cancelamos la acción
 						}
+					 
 					 empDto.setDni(tfDni.getText().trim());
 					 
 					 //aqui cojo el id de la categoria del combo box
@@ -193,13 +204,13 @@ public class ModificarEmpleados extends JDialog {
 						// El usuario pulsó "No" (Cerrar/Cancelar) o cerró la ventana
 				            JOptionPane.showMessageDialog(null, "Modificación cancelada.");
 				            
-				            tfNombre.setText(" ");
-				            tfApellido.setText(" ");
-				            tfDni.setText(" ");
-				            tfSalario.setText(" ");
-				            tfDia.setText(" ");
-				            tfMes.setText(" ");
-				            tfAnio.setText(" ");
+				            tfNombre.setText("");
+				            tfApellido.setText("");
+				            tfDni.setText("");
+				            tfSalario.setText("");
+				            tfDia.setText("");
+				            tfMes.setText("");
+				            tfAnio.setText("");
 					 }
 				
 				
@@ -282,7 +293,7 @@ public class ModificarEmpleados extends JDialog {
 				tfIdEmpleado.setBounds(175, 89, 154, 25);
 				contentPanel.add(tfIdEmpleado);
 				
-				JButton btBuscar = new JButton("B U S C A R");
+				btBuscar = new JButton("B U S C A R");
 				btBuscar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						buscar();
@@ -292,21 +303,30 @@ public class ModificarEmpleados extends JDialog {
 				btBuscar.setBounds(80, 431, 169, 32);
 				contentPanel.add(btBuscar);
 				
-				passwordField = new JPasswordField();
-				passwordField.setBounds(414, 273, 158, 25);
-				contentPanel.add(passwordField);
-				
-				JLabel lbPassword = new JLabel("Contraseña:");
-				lbPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-				lbPassword.setBounds(440, 238, 132, 25);
-				contentPanel.add(lbPassword);
-				
 				
 				
 				
 				
 				
 	}
+	
+	
+	
+	public ModificarEmpleados(EmpleadoDto emp) {
+        this();// aqui llamamos al constructor de arriba
+        this.empDto = emp;
+
+        cargarDatos();
+        /*if (emp != null && tfNombre != null) {
+            tfNombre.setText(emp.getNombreEmple());
+        } else {
+            System.out.println("Error: El empleado es nulo o los campos de texto no se han creado.");
+        }*/
+        if(empDto.getIdcategoria() != 3) {
+        	btBuscar.setEnabled(false);
+        }
+        
+    }
 	////////////////METODOS///////////////////
 	
 	
@@ -410,6 +430,63 @@ public class ModificarEmpleados extends JDialog {
 		        throw new IllegalArgumentException("La fecha no es válida");
 		    }
 		}
+	  
+	  
+	  //metodo para cargar datos cuando se le da a modificar y no es gerente
+	  
+	  private void cargarDatos() {
+	        if (empDto != null ) {
+	            tfNombre.setText(empDto.getNombreEmple());
+	            tfApellido.setText(empDto.getApellidoEmple());
+	            tfDni.setText(empDto.getDni());
+	            tfSalario.setText(String.valueOf(empDto.getSalario())); // convierto en string
+
+	            if (empDto.getFechaAlta() != null) {
+	                LocalDate localDate = empDto.getFechaAlta().toLocalDate();
+	                tfDia.setText(String.valueOf(localDate.getDayOfMonth()));
+	                tfMes.setText(String.valueOf(localDate.getMonthValue()));
+	                tfAnio.setText(String.valueOf(localDate.getYear()));
+	            }
+
+	            // Seleccionar categoría en el ComboBox
+	            for (int i = 0; i < cbCategoria.getItemCount(); i++) {
+	                CategoriaDto c = (CategoriaDto) cbCategoria.getItemAt(i);
+	                if (c.getIdCategoria() == empDto.getIdcategoria()) {
+	                    cbCategoria.setSelectedItem(c);
+	                    break;
+	                }
+	            }
+	          
+	            // Si el ID de categoría NO es 3 ( gerente)
+	            if (empDto.getIdcategoria() != 3) {
+	                tfIdEmpleado.setEditable(false);
+	                tfSalario.setEditable(false); 
+	                cbCategoria.setEnabled(false);
+	                tfDia.setEnabled(false);
+	                tfMes.setEnabled(false);
+	                tfAnio.setEnabled(false);
+	                             
+	            } else {
+	            	//Cuando accede el gerente estan los tf vacios
+	            	tfNombre.setText("");
+	            	tfApellido.setText("");
+	            	tfDni.setText("");
+	            	tfDia.setText("");
+	            	tfMes.setText("");
+	            	tfSalario.setText("");
+	            	tfAnio.setText("");
+	            	
+	            	
+
+	                tfIdEmpleado.setEditable(true);
+	                
+	            }
+	        }
+	    }
+	  
+	  
+	  
+	  
 }
 
 	

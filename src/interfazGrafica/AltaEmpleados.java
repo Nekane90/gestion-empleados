@@ -34,6 +34,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.JPasswordField;
 import javax.swing.JCheckBox;
+import java.awt.Toolkit;
 
 
 public class AltaEmpleados extends JDialog {
@@ -54,6 +55,10 @@ public class AltaEmpleados extends JDialog {
 
 
 	public AltaEmpleados() {
+		setFont(new Font("Dialog", Font.BOLD, 14));
+		setForeground(new Color(0, 0, 0));
+		setTitle("Alta Empleados");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));
 		setBounds(100, 100, 673, 493);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
@@ -92,6 +97,7 @@ public class AltaEmpleados extends JDialog {
 		contentPanel.add(lbFechaAlta);
 		
 		tfNombre = new JTextField();
+		tfNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		tfNombre.setBounds(175, 108, 154, 25);
 		contentPanel.add(tfNombre);
 		tfNombre.setColumns(10);
@@ -126,6 +132,7 @@ public class AltaEmpleados extends JDialog {
 					
 					String nombre = tfNombre.getText().trim();
 					String apellido = tfApellido.getText().trim();
+					
 					//Comprobamos que la contraseña sea de 6 caracteres
 					if (password.length() < 6) {
 		                JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 6 caracteres");
@@ -144,6 +151,10 @@ public class AltaEmpleados extends JDialog {
 				    }
 				
 					double salario = Double.parseDouble(tfSalario.getText().trim());// Convertimos a double
+					if( salario < 0 ) {
+						JOptionPane.showMessageDialog(null,"El salario no puede ser negativo");    	
+						return;	}
+			
 					String dni = tfDni.getText().trim();
 					//Comprobamos el dni que sea valido
 					/*if (!dniValido(dni)) {
@@ -178,9 +189,19 @@ public class AltaEmpleados extends JDialog {
 					}
 					
 				} catch (Exception e2) {
-					 JOptionPane.showMessageDialog(null, "Error: " + e2.getMessage());
+					 JOptionPane.showMessageDialog(null, "Error, no estan los datos bien rellenados " + e2.getMessage());
 					
 				}
+				
+				tfNombre.setText("");
+				tfApellido.setText("");
+				tfSalario.setText("");
+				tfDia.setText("");
+				tfDni.setText("");
+				tfMes.setText("");
+				tfAnio.setText("");
+				tfPassword.setText("");
+			
 				
 			}
 		});
@@ -210,16 +231,19 @@ public class AltaEmpleados extends JDialog {
 				lbImagen.setIcon(new ImageIcon(imgEscalada));
 				
 				tfApellido = new JTextField();
+				tfApellido.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				tfApellido.setColumns(10);
 				tfApellido.setBounds(175, 153, 154, 25);
 				contentPanel.add(tfApellido);
 				
 				tfDni = new JTextField();
+				tfDni.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				tfDni.setColumns(10);
 				tfDni.setBounds(175, 193, 154, 25);
 				contentPanel.add(tfDni);
 				
 				tfSalario = new JTextField();
+				tfSalario.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				tfSalario.setColumns(10);
 				tfSalario.setBounds(175, 244, 154, 25);
 				contentPanel.add(tfSalario);
@@ -230,16 +254,19 @@ public class AltaEmpleados extends JDialog {
 				contentPanel.add(tfDia);
 				
 				tfMes = new JTextField();
+				tfMes.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				tfMes.setColumns(10);
 				tfMes.setBounds(221, 334, 53, 25);
 				contentPanel.add(tfMes);
 				
 				tfAnio = new JTextField();
+				tfAnio.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				tfAnio.setColumns(10);
 				tfAnio.setBounds(344, 334, 53, 25);
 				contentPanel.add(tfAnio);
 				
 				cbCategoria = new JComboBox();
+				cbCategoria.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				cbCategoria.setBounds(414, 174, 160, 25);
 				contentPanel.add(cbCategoria);
 				
@@ -254,11 +281,13 @@ public class AltaEmpleados extends JDialog {
 				contentPanel.add(lbContraseña);
 				
 				tfPassword = new JPasswordField();
+				tfPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				tfPassword.setBounds(414, 259, 160, 25);
 				contentPanel.add(tfPassword);
 				
 				JCheckBox cbVer = new JCheckBox("Ver");
 				cbVer.addActionListener(new ActionListener() {
+					
 				///Aqui se ve la contraseña
 				    public void actionPerformed(ActionEvent e) {
 				        if (cbVer.isSelected()) {
