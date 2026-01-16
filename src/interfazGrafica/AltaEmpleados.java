@@ -58,7 +58,6 @@ public class AltaEmpleados extends JDialog {
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setForeground(new Color(0, 0, 0));
 		setTitle("Alta Empleados");
-		//setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("../imagenes/LOGO.png"));
 		setBounds(100, 100, 673, 493);
 		getContentPane().setLayout(new BorderLayout());
@@ -117,6 +116,13 @@ public class AltaEmpleados extends JDialog {
 		lbAño.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbAño.setBounds(305, 332, 66, 25);
 		contentPanel.add(lbAño);
+		
+		/**
+		 * El boton ALTA da de alta al empleado en la base de datos, comprobando que no esten vacios los TextField, la contraseña tiene que tener 6 caracteres,
+		 * se comprueba que los campos nombre/apellido no se metan números, se valida el dni, y se encripta la contraseña, con estos datos se crea un empleado
+		 * y se utiliza el metodo insert {@link EmpleadoDao}
+		 */
+		
 		
 		JButton btAlta = new JButton("A L T A");
 		btAlta.addActionListener(new ActionListener() {
@@ -293,7 +299,6 @@ public class AltaEmpleados extends JDialog {
 				///Aqui se ve la contraseña
 				    public void actionPerformed(ActionEvent e) {
 				        if (cbVer.isSelected()) {
-				            // (char) 0 hace que el texto sea visible (quita los puntos)
 				            tfPassword.setEchoChar((char) 0); 
 				        } else {
 				            tfPassword.setEchoChar('•'); 
@@ -306,6 +311,11 @@ public class AltaEmpleados extends JDialog {
 				contentPanel.add(cbVer);
 				cargarComboConCategoria();
 	}
+	
+	/**
+	 * Recogemos la fecha de los TextField por separado dia/mes/año y los pasamos con LocalDate a una fecha para insertar en la base de datos
+	 * @return LocalDate fecha
+	 */
 	
 	public Date recogerFecha() {
 	    try {
@@ -337,7 +347,9 @@ public class AltaEmpleados extends JDialog {
 	        return null;
 	    }
 	}
-	
+	/**
+	 * Cargamos en el combo box las categorias
+	 */
 
 	private void cargarComboConCategoria() {
 	    ArrayList<CategoriaDto> listaCat = catDao.listarTodos();
@@ -346,8 +358,16 @@ public class AltaEmpleados extends JDialog {
 	    }
 	}
 
+	/**
+	 * Comprobamos la validez del dni
+	 * @param dni
+	 * @return {@code true}  si el dni es valido
+	 * {@code false} si el dni no es valido
+	 * 
+	 */
+	
 	////Comprobar validez del dni
-	///
+
 	public static boolean dniValido(String dni) {
 	    if (dni == null || dni.length() != 9) return false;
 
@@ -364,6 +384,16 @@ public class AltaEmpleados extends JDialog {
 	    return letra == letraCorrecta;
 	}
 
+	/**
+	 * Encripta una cadena de texto utilizando el algoritmo hash SHA-256.
+	 * El proceso convierte la contraseña en un array de bytes usando codificación UTF-8,
+	 * genera el hash y finalmente lo devuelve representado en una cadena Base64 
+	 * para facilitar su almacenamiento o transporte.
+	 *
+	 * @param password La cadena de texto  que se desea encriptar.
+	 * @return Una cadena de texto (String) que representa el hash en formato Base64.
+	 */
+	
 	///Metodo para encriptar la contraseña
 	public String encriptarLocal(String password) {
 	    try {

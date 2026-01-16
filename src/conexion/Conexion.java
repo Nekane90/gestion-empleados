@@ -8,6 +8,17 @@ public class Conexion {
 	private static Conexion instancia = null;
 	private static Connection con;
 	
+	/**
+	 * Este método realiza las siguientes tareas:
+	 * Configura los parámetros de red (host), credenciales (usuario y contraseña) 
+	 * y el nombre de la base de datos ({@code cafeteria gaupasa}).
+	 * Carga dinámicamente el driver JDBC de MySQL mediante {@link Class#forName(String)}.
+	 * Construye la URL de conexión y establece la comunicación a través de {@link DriverManager}.
+	 * Nota: El constructor es privado para dar soporte al patrón de diseño Singleton
+	 * asegurando que solo exista una instancia de la conexión en toda la aplicación.
+	 */
+	
+	
 	private Conexion () {
 		 String host = "127.0.0.1"; //Podríamos poner "localhost"
 		 String user = "root";

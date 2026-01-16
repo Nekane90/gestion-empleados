@@ -26,6 +26,15 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 	
 	private Conexion con= Conexion.getInstancia();
 
+	/**
+	 * Inserta un nuevo registro de empleado en la base de datos.
+	 * * Este método utiliza un PreparedStatement para ejecutar una sentencia SQL 
+	 * de inserción, 
+	 * * @param emp Objeto {@link EmpleadoDto} que contiene todos los datos del empleado a registrar.
+	 * @return {@code true} si la inserción fue exitosa (se insertó al menos una fila); 
+	 * {@code false} en caso de error o si no se pudo realizar la operación.
+	 */
+	
 	//////INSERTAR/////
 	public boolean insertar(EmpleadoDto emp) {
 		
@@ -59,6 +68,16 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 		
 	}
 
+	/**
+	 * Elimina un registro de empleado de la base de datos utilizando su clave primaria.
+	 * * Este método ejecuta una sentencia SQL de borrado (DELETE) basada en el ID 
+	 * proporcionado. Realiza un cast del objeto recibido a entero para aplicarlo 
+	 * al filtro de la consulta.
+	 * * @param pk Clave primaria (ID) del registro a eliminar. Se espera un objeto 
+	 * de tipo {@code Integer}.
+	 * @return {@code true} si el registro se eliminó correctamente (al menos una fila afectada); 
+	 * {@code false} si el ID no existe o si ocurrió un error en la base de datos.
+	 */
 	
 	////BORRAR/
 	public boolean borrar(Object pk) {
@@ -84,7 +103,13 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 		
 	}
 
-
+	/**
+	 * Modifica un empleado de la base de datos
+	 * Este método utiliza un PreparedStatement para ejecutar una sentencia SQL 
+	 * @param emp Objeto {@link EmpleadoDto} que contiene todos los datos del empleado a registrar.
+	 * @return {@code true} si la modificación fue exitosa
+	 * {@code false} en caso de error o si no se pudo realizar la operación.
+	 */
 	
 	/////////////MODIFICAR//////////////
 	
@@ -116,6 +141,18 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 		return false;
 	}
 
+	/**
+	 * Recupera la información detallada de un empleado desde la base de datos 
+	 * utilizando su identificador único (ID).
+	 * * El método ejecuta una consulta SQL y mapea el resultado (ResultSet) a un 
+	 * objeto de tipo {@link EmpleadoDto}.
+	 * * @param pk Clave primaria del empleado que se desea buscar. Se espera un 
+	 * objeto de tipo {@code Integer}.
+	 * @return Un objeto {@link EmpleadoDto} con los datos del empleado si se 
+	 * encuentra en la base de datos; {@code null} si no existe ningún 
+	 * registro con esa clave o si ocurre una excepción.
+	 */
+	
 	//////////BUSCAR//////////////////
 	
 	public EmpleadoDto buscar(Object pk) {
@@ -137,6 +174,16 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 		return empe;
 	}
 
+	/**
+	 * Obtiene la lista completa de empleados registrados en la base de datos.
+	 * * Este método ejecuta una consulta global (SELECT ALL) y recorre el {@link ResultSet} 
+	 * para transformar cada fila en un objeto {@link EmpleadoDto}, almacenándolos 
+	 * en un {@link ArrayList}.
+	 * * @return Un {@link ArrayList} que contiene todos los objetos {@link EmpleadoDto} 
+	 * encontrados. Si no hay registros en la tabla, se devolverá una lista vacía 
+	 * (pero no {@code null}).
+	 */
+	
 	@Override
 	public ArrayList<EmpleadoDto> listarTodos() {
 		ArrayList<EmpleadoDto> listaEmp = new ArrayList<EmpleadoDto>();
@@ -157,6 +204,16 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 		return listaEmp;
 	}
 
+	
+	/**
+	 * Recupera un listado de empleados pertenecientes a una categoría específica.
+	 * Realiza una consulta filtrada en la base de datos utilizando el identificador 
+	 * de la categoría. Cada registro encontrado se transforma en un objeto {@link EmpleadoDto} 
+	 * y se añade a la colección resultante.
+	 * * @param idCategoria Identificador numérico de la categoría por la cual se desea filtrar.
+	 * @return Un {@link ArrayList} con los empleados de dicha categoría. Si no existen 
+	 * empleados asociados o el ID no es válido, devuelve una lista vacía.
+	 */
 	
 	/////LISTAR EMPLEADOS POR CATEGORIA -/////
 	
@@ -188,6 +245,18 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 		}
 		return listaEmp;
 	}
+	
+	
+	/**
+	 * Realiza la autenticación de un empleado en el sistema verificando sus credenciales.
+	 * El proceso busca al empleado por su ID, recupera la contraseña encriptada almacenada 
+	 * en la base de datos y la compara con el hash de la contraseña introducida por el usuario.
+	 * * @param idEmpleado Código identificador único del empleado.
+	 * @param passwordIntroducida Contraseña en texto plano introducida en el formulario de login.
+	 * @return Un objeto {@link EmpleadoDto} con la información del perfil si la autenticación es exitosa; 
+	 * {@code null} si el usuario no existe o la contraseña es incorrecta.
+	 */
+	
 	
 	////Validar el login
 
@@ -222,7 +291,11 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 	    }
 	    return null; 
 	}
-	
+	/**
+	 * Este metodo sirve para encriptar la contraseña y guardarla en la base de datos
+	 * @param recibe la contraseña
+	 * @return devuelve la contraseña encriptada
+	 */
 	
 	///Metodo para encriptar la contraseña
 		public String encriptarLocal(String password) {
