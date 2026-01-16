@@ -52,6 +52,7 @@ public class Fichaje extends JDialog {
 	 * Create the dialog.
 	 */
 	public Fichaje() {
+		setFont(new Font("Dialog", Font.BOLD, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Fichaje.class.getResource("/imagenes/LOGO.png")));
 		setTitle("Fichaje");
 		setBounds(100, 100, 387, 752);

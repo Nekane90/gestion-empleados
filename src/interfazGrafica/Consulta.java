@@ -51,7 +51,7 @@ public class Consulta extends JDialog {
 	
 	public Consulta() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Consulta.class.getResource("/imagenes/LOGO.png")));
-		setFont(new Font("Dialog", Font.PLAIN, 14));
+		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Consultar Empleados");
 		setBounds(100, 100, 702, 449);
 		getContentPane().setLayout(new BorderLayout());
