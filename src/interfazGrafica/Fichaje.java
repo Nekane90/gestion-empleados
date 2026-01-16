@@ -30,6 +30,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.awt.Color;
+
 /**
  * Se ejecuta al pulsar el botón FICHAR.
  * <p>

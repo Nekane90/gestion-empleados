@@ -69,7 +69,9 @@ public class EliminarEmpleados extends JDialog {
 	 * - Busca el empleado en la base de datos
 	 * - Muestra sus datos en los campos
 	 */
-	public EliminarEmpleados() {
+
+	
+		public EliminarEmpleados() {
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Eliminar Empleados");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));
