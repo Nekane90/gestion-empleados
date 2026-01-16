@@ -30,7 +30,15 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.awt.Color;
-
+/**
+ * Se ejecuta al pulsar el botón FICHAR.
+ * <p>
+ * Registra un fichaje de entrada o salida dependiendo de la opción seleccionada,
+ * junto con el tipo de trabajo (presencial o teletrabajo).
+ * </p>
+ *
+ * @param e evento de acción
+ */
 public class Fichaje extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -215,15 +223,7 @@ public class Fichaje extends JDialog {
 		ButtonGroup talde= new ButtonGroup();
 		talde.add(rbEntrada);
 		talde.add(rbSalida);
-		/**
-	     * Se ejecuta al pulsar el botón FICHAR.
-	     * <p>
-	     * Registra un fichaje de entrada o salida dependiendo de la opción seleccionada,
-	     * junto con el tipo de trabajo (presencial o teletrabajo).
-	     * </p>
-	     *
-	     * @param e evento de acción
-	     */
+		
 		JButton btnFichar = new JButton("F I C H A R");
 		btnFichar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
