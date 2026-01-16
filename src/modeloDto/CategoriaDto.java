@@ -1,7 +1,12 @@
 package modeloDto;
 
 import java.util.Objects;
-
+/**
+ * DTO  que representa una categoría.
+ * Contiene el identificador de la categoría y su nombre.
+ * @author Nekane y Maialen
+ * @version 1.0
+ */
 public class CategoriaDto {
 
 	private int idCategoria;
@@ -39,12 +44,22 @@ public class CategoriaDto {
 
 	
 	//Hashcode y equals
-	
+	/**
+     * Genera el código hash de la categoría.
+     *
+     * @return valor hash basado en el id y el nombre
+     */
 	@Override
 	public int hashCode() {
 		return Objects.hash(idCategoria, nombreCategoria);
 	}
-
+	/**
+     * Compara dos objetos.
+     *
+     * @param obj objeto a comparar
+     * @return {@code true} si ambos objetos son iguales,
+     *         {@code false} en caso contrario
+     */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -59,6 +74,15 @@ public class CategoriaDto {
 	
 	
 	///Tostring
+	/**
+     * Devuelve en texto la categoría.
+     * <p>
+     * Se utiliza principalmente para mostrar el nombre de la categoría
+     * en componentes como {@code JComboBox}.
+     * </p>
+     *
+     * @return nombre de la categoría
+     */
 	 public String toString() {
 	        return nombreCategoria; // lo que se muestra en el combo
 	    }

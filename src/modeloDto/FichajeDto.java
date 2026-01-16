@@ -5,7 +5,16 @@ import java.sql.Time;
 import java.util.Objects;
 
 import javax.swing.JOptionPane;
-
+/**
+ * DTO que representa un fichaje de un empleado.
+ * <p>
+ * Contiene la información relativa a la fecha, hora de entrada,
+ * hora de salida y tipo de trabajo realizado.
+ * </p>
+ * 
+ * @author Nekane y Maialen
+ * @version 1.0
+ */
 public class FichajeDto {
 	
 	
@@ -89,12 +98,22 @@ public class FichajeDto {
 
 	
 	///Hashcode y equals
-	///
+	/**
+     * Genera el código hash del fichaje.
+     *
+     * @return valor hash
+     */
 	@Override
 	public int hashCode() {
 		return Objects.hash(fecha, horaEntrada, horaSalida, idEmpleado, tipoTrabajo);
 	}
-
+	 /**
+     * Compara dos objetos {@code FichajeDto}.
+     *
+     * @param obj objeto a comparar
+     * @return {@code true} si ambos fichajes son iguales,
+     *         {@code false} en caso contrario
+     */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

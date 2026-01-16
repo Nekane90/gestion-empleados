@@ -28,7 +28,17 @@ import java.awt.Color;
 
 
 
-
+/**
+ * Ventana que permite consultar el listado de empleados
+ * almacenados en la base de datos.
+ * <p>
+ * Muestra los empleados en una tabla con información como ID, nombre,
+ * apellido, DNI, salario, fecha de alta, categoría y contraseña.
+ * </p>
+ * 
+ * @author Nekane y Maialen
+ * @version 1.0
+ */
 public class Consulta extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -37,9 +47,7 @@ public class Consulta extends JDialog {
 	private static EmpleadoDao empdao=new EmpleadoDao();
 	private ArrayList<EmpleadoDto> empleados;
 	
-	/**
-	 * Create the dialog.
-	 */
+	
 	public Consulta() {
 		setFont(new Font("Dialog", Font.PLAIN, 14));
 		setTitle("Consultar Empleados");
@@ -102,6 +110,13 @@ public class Consulta extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		}
 	}
+	
+	/**
+	 * Carga la lista de empleados desde la base de datos y
+	 * los muestra en la tabla.
+	 * 
+	 * @throws SQLException si ocurre un error al acceder a la base de datos
+	 */
 	private void cargarEmpleados() throws SQLException{
 		empleados=empdao.listarTodos();
 		

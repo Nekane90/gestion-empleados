@@ -2,7 +2,13 @@ package modeloDto;
 
 import java.sql.Date;
 import java.util.Objects;
-
+/**
+ * DTO que representa a un empleado.
+ * 
+ * Contiene información personal, laboral y de acceso del empleado.
+ * @author Nekane y Maialen
+ * @version 1.0
+ */
 public class EmpleadoDto {
 	
 	private int idEmpleado;
@@ -120,12 +126,21 @@ public class EmpleadoDto {
 
 	
 	//Hashcode y equals
-	
+	 /**
+     * Genera el código hash del empleado.
+     *
+     * @return valor hash
+     */
 	@Override
 	public int hashCode() {
 		return Objects.hash(apellido, dni, fechaAlta, idEmpleado, idcategoria, nombre, salario);
 	}
-
+	/**
+     * Compara dos objetos.
+     *
+     * @param obj objeto a comparar
+     * @return {@code true} si son iguales, {@code false} en caso contrario
+     */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

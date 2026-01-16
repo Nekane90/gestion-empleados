@@ -42,21 +42,18 @@ public class EliminarEmpleados extends JDialog {
 	EmpleadoDto empleadodto = new EmpleadoDto();
 	private JTextField txtID;
 
+	
+	
 	/**
-	 * Launch the application.
-	 */
-	/**public static void main(String[] args) {
-		try {
-			EliminarEmpleados dialog = new EliminarEmpleados();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	 */
-	/**
-	 * Create the dialog.
+	 * Ventana gráfica que permite buscar y eliminar empleados de la base de datos.
+	 * 
+	 * El usuario puede:
+	 * - Buscar un empleado por su ID
+	 * - Visualizar sus datos
+	 * - Confirmar y eliminar el empleado
+	 * 
+	 * @author Maialen y Nekane
+	 * @version 1.0
 	 */
 	public EliminarEmpleados() {
 		setFont(new Font("Dialog", Font.BOLD, 14));
@@ -120,6 +117,12 @@ public class EliminarEmpleados extends JDialog {
 		contentPanel.add(lbAño);
 		
 		JButton btEliminar = new JButton("E L I M I N A R");
+		/**
+		 * Evento del botón Eliminar:
+		 * - Solicita confirmación al usuario
+		 * - Elimina el empleado por ID
+		 * - Limpia los campos de texto
+		 */
 		btEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int opcion =JOptionPane.showConfirmDialog(null,
@@ -206,6 +209,12 @@ public class EliminarEmpleados extends JDialog {
 				
 				JButton btBuscar = new JButton("B U S C A R");
 				btBuscar.addActionListener(new ActionListener() {
+					/**
+					 * Evento del botón Buscar:
+					 * - Valida el ID introducido
+					 * - Busca el empleado en la base de datos
+					 * - Muestra sus datos en los campos
+					 */
 					public void actionPerformed(ActionEvent e) {
 						empleadodto = null;
 					    String textoCodigo = txtID.getText().trim();

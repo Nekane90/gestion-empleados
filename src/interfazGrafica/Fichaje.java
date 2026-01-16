@@ -215,7 +215,15 @@ public class Fichaje extends JDialog {
 		ButtonGroup talde= new ButtonGroup();
 		talde.add(rbEntrada);
 		talde.add(rbSalida);
-		
+		/**
+	     * Se ejecuta al pulsar el botón FICHAR.
+	     * <p>
+	     * Registra un fichaje de entrada o salida dependiendo de la opción seleccionada,
+	     * junto con el tipo de trabajo (presencial o teletrabajo).
+	     * </p>
+	     *
+	     * @param e evento de acción
+	     */
 		JButton btnFichar = new JButton("F I C H A R");
 		btnFichar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -263,6 +271,11 @@ public class Fichaje extends JDialog {
 		contentPanel.add(btnFichar);
 			
 	}
+	/**
+	 * Añade un número al campo de texto del teclado numérico.
+	 *
+	 * @param num número a añadir
+	 */
 	private void ponerNumero(String num) {
 		txtTexto.setText(txtTexto.getText() + num);
 	}
