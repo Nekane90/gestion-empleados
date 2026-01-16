@@ -53,7 +53,13 @@ public class AltaEmpleados extends JDialog {
 	CategoriaDao catDao = new CategoriaDao();
 	private JPasswordField tfPassword;
 
-
+	/**
+	 * El boton ALTA da de alta al empleado en la base de datos, comprobando que no esten vacios los TextField, la contraseña tiene que tener 6 caracteres,
+	 * se comprueba que los campos nombre/apellido no se metan números, se valida el dni, y se encripta la contraseña, con estos datos se crea un empleado
+	 * y se utiliza el metodo insert {@link EmpleadoDao}
+	 */
+	
+	
 	public AltaEmpleados() {
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setForeground(new Color(0, 0, 0));
@@ -117,11 +123,7 @@ public class AltaEmpleados extends JDialog {
 		lbAño.setBounds(305, 332, 66, 25);
 		contentPanel.add(lbAño);
 		
-		/**
-		 * El boton ALTA da de alta al empleado en la base de datos, comprobando que no esten vacios los TextField, la contraseña tiene que tener 6 caracteres,
-		 * se comprueba que los campos nombre/apellido no se metan números, se valida el dni, y se encripta la contraseña, con estos datos se crea un empleado
-		 * y se utiliza el metodo insert {@link EmpleadoDao}
-		 */
+		
 		
 		
 		JButton btAlta = new JButton("A L T A");

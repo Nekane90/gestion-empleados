@@ -50,6 +50,20 @@ public class Login extends JFrame {
 		});
 	}
 
+	/**
+	 * Gestiona el evento de pulsación del botón de inicio de sesión.
+	 * El flujo de ejecución es el siguiente
+	 * Captura el ID del empleado y la contraseña (convirtiendo el {@code char[]} de la password en {@code String}).
+	 * Valida que los campos no estén vacíos antes de proceder.
+	 * Llama al método {@code validarLogin} del DAO para verificar las credenciales en la base de datos.
+	 * Si el login es exitoso, muestra un mensaje de bienvenida y abre la ventana {@link Principal}, 
+	 * pasando el objeto {@link EmpleadoDto} para mantener la sesión del usuario.
+	 * Si las credenciales son incorrectas o hay un error de formato, muestra un mensaje de error mediante {@link JOptionPane}.
+	 * Al finalizar, limpia los campos de texto por seguridad.
+	 *
+	 * @param e El evento de acción disparado por el componente (botón).
+	 */
+	
 	
 	public Login() {
 		setFont(new Font("Dialog", Font.BOLD, 14));
@@ -83,20 +97,6 @@ public class Login extends JFrame {
 		lbContraseña.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbContraseña.setBounds(240, 200, 181, 24);
 		contentPane.add(lbContraseña);
-		
-		/**
-		 * Gestiona el evento de pulsación del botón de inicio de sesión.
-		 * El flujo de ejecución es el siguiente
-		 * Captura el ID del empleado y la contraseña (convirtiendo el {@code char[]} de la password en {@code String}).
-		 * Valida que los campos no estén vacíos antes de proceder.
-		 * Llama al método {@code validarLogin} del DAO para verificar las credenciales en la base de datos.
-		 * Si el login es exitoso, muestra un mensaje de bienvenida y abre la ventana {@link Principal}, 
-		 * pasando el objeto {@link EmpleadoDto} para mantener la sesión del usuario.
-		 * Si las credenciales son incorrectas o hay un error de formato, muestra un mensaje de error mediante {@link JOptionPane}.
-		 * Al finalizar, limpia los campos de texto por seguridad.
-		 *
-		 * @param e El evento de acción disparado por el componente (botón).
-		 */
 				
 		JButton btAcceder = new JButton("A C C E D E R");
 		//aqui se pone el color al boton

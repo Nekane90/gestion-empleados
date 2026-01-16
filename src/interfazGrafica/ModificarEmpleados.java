@@ -51,6 +51,10 @@ public class ModificarEmpleados extends JDialog {
 	CategoriaDao catDao = new CategoriaDao();
 	private JTextField tfIdEmpleado;
 	
+	/**
+	 * Boton MODIFICAR pregunta primero si se quiere modificar, y si es true se hacen las comprobaciones de que no esten vacios los TextField
+	 * se valida el dni, y se modifica con el metodo actualizar {@link EmpleadoDao}
+	 */
 	
 	public ModificarEmpleados() {
 		setFont(new Font("Dialog", Font.BOLD, 14));
@@ -112,12 +116,6 @@ public class ModificarEmpleados extends JDialog {
 		lbAño.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lbAño.setBounds(305, 361, 66, 25);
 		contentPanel.add(lbAño);
-		
-		/**
-		 * Boton MODIFICAR pregunta primero si se quiere modificar, y si es true se hacen las comprobaciones de que no esten vacios los TextField
-		 * se valida el dni, y se modifica con el metodo actualizar {@link EmpleadoDao}
-		 */
-		
 		
 		JButton btModificar = new JButton("M O D I F I C A R");
 		btModificar.addActionListener(new ActionListener() {
