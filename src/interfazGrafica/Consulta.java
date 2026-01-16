@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import modeloDao.EmpleadoDao;
 import modeloDto.EmpleadoDto;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 
 
@@ -49,6 +50,7 @@ public class Consulta extends JDialog {
 	
 	
 	public Consulta() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Consulta.class.getResource("/imagenes/LOGO.png")));
 		setFont(new Font("Dialog", Font.PLAIN, 14));
 		setTitle("Consultar Empleados");
 		setBounds(100, 100, 702, 449);

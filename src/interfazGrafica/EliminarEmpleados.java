@@ -73,7 +73,7 @@ public class EliminarEmpleados extends JDialog {
 	
 		public EliminarEmpleados() {
 		setFont(new Font("Dialog", Font.BOLD, 14));
-		setTitle("Eliminar Empleados");
+		setTitle("Baja Empleados");
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));
 		setBounds(100, 100, 648, 539);
 		getContentPane().setLayout(new BorderLayout());
@@ -82,7 +82,7 @@ public class EliminarEmpleados extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JLabel lbTitulo = new JLabel("ELIMINAR EMPLEADOS");
+		JLabel lbTitulo = new JLabel("BAJA EMPLEADOS");
 		lbTitulo.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lbTitulo.setBounds(175, 22, 264, 60);
 		contentPanel.add(lbTitulo);

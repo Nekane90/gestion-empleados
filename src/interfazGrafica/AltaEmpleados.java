@@ -64,7 +64,7 @@ public class AltaEmpleados extends JDialog {
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setForeground(new Color(0, 0, 0));
 		setTitle("Alta Empleados");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("../imagenes/LOGO.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(AltaEmpleados.class.getResource("/imagenes/LOGO.png")));
 		setBounds(100, 100, 673, 493);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));

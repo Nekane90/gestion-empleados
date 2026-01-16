@@ -30,6 +30,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 /**
  * Se ejecuta al pulsar el botón FICHAR.
@@ -51,6 +52,8 @@ public class Fichaje extends JDialog {
 	 * Create the dialog.
 	 */
 	public Fichaje() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Fichaje.class.getResource("/imagenes/LOGO.png")));
+		setTitle("Fichaje");
 		setBounds(100, 100, 387, 752);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
