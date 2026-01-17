@@ -15,6 +15,7 @@ import java.awt.Image;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -95,16 +96,27 @@ public class Consulta extends JDialog {
 		btSalir.setBounds(550, 353, 85, 32);
 		contentPanel.add(btSalir);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(513, 10, 153, 76);
-		contentPanel.add(lblNewLabel);
+		JLabel lbImagen = new JLabel("");
+		lbImagen.setBounds(527, 10, 119, 89);
+		contentPanel.add(lbImagen);
 		
 		// Cargar la imagen original
-				ImageIcon iconOriginal = new ImageIcon("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png");
-				// Escalar la imagen al tamaño del JLabel
-				Image img = iconOriginal.getImage();
-				Image imgEscalada = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
-				lblNewLabel.setIcon(new ImageIcon(imgEscalada));
+		
+		try {
+		    URL urlLogo = getClass().getResource("/imagenes/LOGO.png");
+		    if (urlLogo != null) {
+		        ImageIcon iconOriginal = new ImageIcon(urlLogo);
+
+		        int anchoDeseado = 120; 
+		        int altoDeseado = 100;
+		        
+		        Image img = iconOriginal.getImage();
+		        Image imgEscalada = img.getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
+		        lbImagen.setIcon(new ImageIcon(imgEscalada));
+		    }
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 		
 		{
 			JPanel buttonPane = new JPanel();

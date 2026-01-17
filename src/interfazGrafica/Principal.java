@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import chat.LoginChat;
 import modeloDto.EmpleadoDto;
 
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
@@ -31,7 +33,7 @@ public class Principal extends JDialog {
 	public Principal(EmpleadoDto emp) {
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Gestion Del Personal");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));//
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginChat.class.getResource("/imagenes/LOGO.png")));
 		
 		setBounds(100, 100, 715, 471);
 		getContentPane().setLayout(new BorderLayout());
@@ -101,7 +103,7 @@ public class Principal extends JDialog {
 		});
 		btFichaje.setBackground(new Color(59, 164, 147));
 		btFichaje.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btFichaje.setBounds(425, 189, 198, 80);
+		btFichaje.setBounds(455, 225, 198, 80);
 		contentPanel.add(btFichaje);
 		
 		JButton btSalir = new JButton("S A L I R");
@@ -115,16 +117,39 @@ public class Principal extends JDialog {
 		contentPanel.add(btSalir);
 		
 		
-		JLabel lblNewLabel = new JLabel();
-		lblNewLabel.setBounds(475, 0, 216, 148);
-		contentPanel.add(lblNewLabel);
+		JLabel lbImagen = new JLabel();
+		lbImagen.setBounds(529, 0, 162, 125);
+		contentPanel.add(lbImagen);
 
 		// Cargar la imagen original
-		ImageIcon iconOriginal = new ImageIcon("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png");
-		// Escalar la imagen al tamaño del JLabel
-		Image img = iconOriginal.getImage();
-		Image imgEscalada = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
-		lblNewLabel.setIcon(new ImageIcon(imgEscalada));
+		
+		try {
+		    URL urlLogo = getClass().getResource("/imagenes/LOGO.png");
+		    if (urlLogo != null) {
+		        ImageIcon iconOriginal = new ImageIcon(urlLogo);
+
+		        int anchoDeseado = 150; 
+		        int altoDeseado = 120;
+		        
+		        Image img = iconOriginal.getImage();
+		        Image imgEscalada = img.getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
+		        lbImagen.setIcon(new ImageIcon(imgEscalada));
+		    }
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+		
+		JButton btChat = new JButton("C H A T ");
+		btChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				LoginChat vChat = new LoginChat( emp);
+				vChat.setVisible(true);
+			}
+		});
+		btChat.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btChat.setBounds(461, 158, 168, 32);
+		contentPanel.add(btChat);
 		
 	
 				if (emp == null) return;

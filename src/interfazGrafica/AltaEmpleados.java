@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -229,16 +230,27 @@ public class AltaEmpleados extends JDialog {
 		btSalir.setBounds(486, 406, 126, 32);
 		contentPanel.add(btSalir);
 		
-		JLabel lbImagen = new JLabel("New label");
-		lbImagen.setBounds(414, 2, 204, 107);
+		JLabel lbImagen = new JLabel("");
+		lbImagen.setBounds(499, 0, 135, 119);
 		contentPanel.add(lbImagen);
 		
 		// Cargar la imagen original
-				ImageIcon iconOriginal = new ImageIcon("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png");
-				// Escalar la imagen al tamaño del JLabel
-				Image img = iconOriginal.getImage();
-				Image imgEscalada = img.getScaledInstance(lbImagen.getWidth(), lbImagen.getHeight(), Image.SCALE_SMOOTH);
-				lbImagen.setIcon(new ImageIcon(imgEscalada));
+		
+		try {
+		    URL urlLogo = getClass().getResource("/imagenes/LOGO.png");
+		    if (urlLogo != null) {
+		        ImageIcon iconOriginal = new ImageIcon(urlLogo);
+
+		        int anchoDeseado = 140; 
+		        int altoDeseado = 120;
+		        
+		        Image img = iconOriginal.getImage();
+		        Image imgEscalada = img.getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
+		        lbImagen.setIcon(new ImageIcon(imgEscalada));
+		    }
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 				
 				tfApellido = new JTextField();
 				tfApellido.setFont(new Font("Tahoma", Font.PLAIN, 14));

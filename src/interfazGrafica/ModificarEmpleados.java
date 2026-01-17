@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import chat.LoginChat;
 import modeloDao.CategoriaDao;
 import modeloDao.EmpleadoDao;
 import modeloDto.CategoriaDto;
@@ -29,6 +30,7 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.Toolkit;
@@ -59,7 +61,7 @@ public class ModificarEmpleados extends JDialog {
 	public ModificarEmpleados() {
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Modificar Empleados");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginChat.class.getResource("/imagenes/LOGO.png")));
 		setBounds(100, 100, 671, 522);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
@@ -242,16 +244,26 @@ public class ModificarEmpleados extends JDialog {
 		btSalir.setBounds(492, 431, 126, 32);
 		contentPanel.add(btSalir);
 		
-		JLabel lbImagen = new JLabel("New label");
-		lbImagen.setBounds(414, 2, 204, 107);
+		JLabel lbImagen = new JLabel("");
+		lbImagen.setBounds(478, 2, 158, 107);
 		contentPanel.add(lbImagen);
 		
 		// Cargar la imagen original
-				ImageIcon iconOriginal = new ImageIcon("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png");
-				// Escalar la imagen al tamaño del JLabel
-				Image img = iconOriginal.getImage();
-				Image imgEscalada = img.getScaledInstance(lbImagen.getWidth(), lbImagen.getHeight(), Image.SCALE_SMOOTH);
-				lbImagen.setIcon(new ImageIcon(imgEscalada));
+		try {
+		    URL urlLogo = getClass().getResource("/imagenes/LOGO.png");
+		    if (urlLogo != null) {
+		        ImageIcon iconOriginal = new ImageIcon(urlLogo);
+
+		        int anchoDeseado = 140; 
+		        int altoDeseado = 120;
+		        
+		        Image img = iconOriginal.getImage();
+		        Image imgEscalada = img.getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
+		        lbImagen.setIcon(new ImageIcon(imgEscalada));
+		    }
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 				
 				tfApellido = new JTextField();
 				tfApellido.setColumns(10);

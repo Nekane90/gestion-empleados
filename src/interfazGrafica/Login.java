@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import chat.LoginChat;
 import modeloDao.EmpleadoDao;
 import modeloDto.EmpleadoDto;
 
@@ -20,6 +21,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JCheckBox;
@@ -67,7 +69,7 @@ public class Login extends JFrame {
 	
 	public Login() {
 		setFont(new Font("Dialog", Font.BOLD, 14));
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginChat.class.getResource("/imagenes/LOGO.png")));
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 637, 426);
@@ -149,16 +151,27 @@ public class Login extends JFrame {
 		btCancelar.setBounds(359, 329, 168, 35);
 		contentPane.add(btCancelar);
 		
-		JLabel lblNewLabel = new JLabel("New label");
+		JLabel lbImagen = new JLabel("New label");
 		
-		lblNewLabel.setBounds(437, 2, 176, 114);
-		contentPane.add(lblNewLabel);
+		lbImagen.setBounds(465, 8, 148, 103);
+		contentPane.add(lbImagen);
 		// Cargar la imagen original
-		ImageIcon iconOriginal = new ImageIcon("C:\\Users\\mixha\\Mi unidad\\DAM3\\Desarrollo de Interfaces\\ProyectosEclipse\\CafeteriaGauPasa\\src\\imagenes\\LOGO.png");
-		// Escalar la imagen al tamaño del JLabel
-		Image img = iconOriginal.getImage();
-		Image imgEscalada = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
-		lblNewLabel.setIcon(new ImageIcon(imgEscalada));
+		
+		try {
+		    URL urlLogo = getClass().getResource("/imagenes/LOGO.png");
+		    if (urlLogo != null) {
+		        ImageIcon iconOriginal = new ImageIcon(urlLogo);
+
+		        int anchoDeseado = 150; 
+		        int altoDeseado = 120;
+		        
+		        Image img = iconOriginal.getImage();
+		        Image imgEscalada = img.getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
+		        lbImagen.setIcon(new ImageIcon(imgEscalada));
+		    }
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 		
 		tfPassword = new JPasswordField();
 		tfPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
