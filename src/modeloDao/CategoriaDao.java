@@ -3,6 +3,9 @@ package modeloDao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
+import com.mysql.jdbc.Connection;
+
 import modeloDto.CategoriaDto;
 import conexion.Conexion;
 
@@ -29,7 +32,7 @@ public class CategoriaDao {
 	 * Instancia de la conexión a la base de datos.
 	 */
 	
-	private Conexion con = Conexion.getInstancia();
+	//private Conexion con = Conexion.getInstancia();
 	
 	
 	//Devuelve la lista de todos las categorias de la tabla
@@ -43,7 +46,7 @@ public class CategoriaDao {
 		public ArrayList<CategoriaDto> listarTodos() {
 			ArrayList<CategoriaDto> listaCat = new ArrayList<CategoriaDto>();
 			try {
-				PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
+				PreparedStatement ps = obtenerCon().prepareStatement(SQL_FINDALL);
 				ResultSet rs = ps.executeQuery();
 				while ( rs.next()) {
 					CategoriaDto cat = new CategoriaDto(rs.getInt("idCategoria"), rs.getString("nombre"));
@@ -59,7 +62,10 @@ public class CategoriaDao {
 			
 		}
 	
-	
+			//Metodo para obtener la conexion
+		private Connection obtenerCon() {
+		    return (Connection) Conexion.getInstancia().getCon();
+		}
 	
 	
 	

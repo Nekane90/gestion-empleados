@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 
+import com.mysql.jdbc.Connection;
+
 import conexion.Conexion;
 
 import modeloDto.FichajeDto;
@@ -29,7 +31,7 @@ public class FichajeDao implements PatronDao<FichajeDto>{
      */
 	private static final String SQL_UPDATEHORASALIDA ="UPDATE fichajes SET horaSalida = ? WHERE idEmpleado = ? AND fecha = ? AND horaSalida = '00:00:00'";
 	 /** Instancia de la conexión a la base de datos */
-	private Conexion con= Conexion.getInstancia();
+	//private Conexion con= Conexion.getInstancia();
 
 	//////INSERTAR/////
 	/**
@@ -43,7 +45,7 @@ public class FichajeDao implements PatronDao<FichajeDto>{
 	public boolean insertar(FichajeDto fich) {
 		PreparedStatement ps=null;
 		try {
-			ps=con.getCon().prepareStatement(SQL_INSERT);
+			ps=obtenerCon().prepareStatement(SQL_INSERT);
 		
 			ps.setInt(1, fich.getIdEmpleado());
 			ps.setDate(2, fich.getFecha());
@@ -85,7 +87,7 @@ public class FichajeDao implements PatronDao<FichajeDto>{
 	public boolean actualizarSalida(int idEmpleado, Date fecha,Time horaSalida) {
 		PreparedStatement ps=null;
 		try {
-			ps=con.getCon().prepareStatement(SQL_UPDATEHORASALIDA);
+			ps=obtenerCon().prepareStatement(SQL_UPDATEHORASALIDA);
 			ps.setTime(1, horaSalida);
 	        ps.setInt(2, idEmpleado);
 	        ps.setDate(3, fecha);
@@ -129,5 +131,10 @@ public class FichajeDao implements PatronDao<FichajeDto>{
 	public ArrayList<FichajeDto> listarTodos() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	//Metodo para obtener la conexion
+	private Connection obtenerCon() {
+	    return (Connection) Conexion.getInstancia().getCon();
 	}
 }

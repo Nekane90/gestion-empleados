@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import chat.LoginChat;
+import conexion.Conexion;
 import modeloDao.EmpleadoDao;
 import modeloDto.EmpleadoDto;
 
@@ -35,6 +36,7 @@ public class Login extends JFrame {
 	private final JPanel contentPanel = new JPanel();
 	private EmpleadoDao empDao = new EmpleadoDao();
 	private JPasswordField tfPassword;
+	private JTextField tfIp;
 
 	/**
 	 * Launch the application.
@@ -72,7 +74,7 @@ public class Login extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginChat.class.getResource("/imagenes/LOGO.png")));
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 637, 426);
+		setBounds(100, 100, 655, 478);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(225, 243, 225));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -97,7 +99,7 @@ public class Login extends JFrame {
 		
 		JLabel lbContraseña = new JLabel("Contraseña:");
 		lbContraseña.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbContraseña.setBounds(240, 200, 181, 24);
+		lbContraseña.setBounds(240, 179, 181, 24);
 		contentPane.add(lbContraseña);
 				
 		JButton btAcceder = new JButton("A C C E D E R");
@@ -105,38 +107,52 @@ public class Login extends JFrame {
 		btAcceder.setBackground(new Color(105, 201, 183));
 		btAcceder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				String password = new String(tfPassword.getPassword()).trim();
-				
-				if(tfIdEmpleado.getText().isEmpty() || password.isEmpty()) {
-					JOptionPane.showMessageDialog(null,"Para hacer el login tienes que rellenar los campos");
+					
+				    String password = new String(tfPassword.getPassword()).trim();
+				    String ipServer = tfIp.getText().trim();
+				    String idTexto = tfIdEmpleado.getText().trim(); // Guardamos el texto primero
+				    
+
+				    if(idTexto.isEmpty() || password.isEmpty() || ipServer.isEmpty()) {
+				        JOptionPane.showMessageDialog(null, "Para hacer el login tienes que rellenar los campos");
+				        return;// Esto detiene el método y no sigue ejecutando lo de abajo
+				    }
+
+				    try {   
+				        int id = Integer.parseInt(idTexto);
+				        
+				        //ASIGNAR LA IP A LA CLASE CONEXIÓN ANTES DE VALIDAR
+				        Conexion.ipServer = ipServer; 
+				        Conexion miCon = Conexion.getInstancia(ipServer);
+				        EmpleadoDto empleado = empDao.validarLogin(id, password);
+				        
+				        if (empleado != null) {
+				            JOptionPane.showMessageDialog(null, "Bienvenid@ " + empleado.getNombreEmple());
+				            
+				            // Abrimos la ventana principal
+				            Principal vPrincipal = new Principal(empleado, ipServer);
+				            vPrincipal.setVisible(true);
+				            
+				            // Cerramos la ventana de login actual (opcional pero recomendado)
+				             Login.this.dispose(); 
+				            
+				        } else {
+				            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error de Login", JOptionPane.ERROR_MESSAGE);
+				        }
+
+				    } catch (NumberFormatException nfe) {
+				        JOptionPane.showMessageDialog(null, "El ID de empleado debe ser un número válido");
+				    } catch (Exception e2) {
+				        JOptionPane.showMessageDialog(null, "Error de conexión: " + e2.getMessage());
+				    } finally {
+				        // Limpiamos los campos siempre al final
+				        tfIdEmpleado.setText("");
+				        tfPassword.setText("");
+				    }
 				}
-				try {	
-				int id = Integer.parseInt(tfIdEmpleado.getText());
-			    
-			    
-				EmpleadoDto empleado = new EmpleadoDto();
-				empleado = empDao.validarLogin(id,password);
-				
-				if (empleado != null) {
-			        JOptionPane.showMessageDialog(null, "Bienvenid@ " + empleado.getNombreEmple());
-			        Principal vPrincipal = new Principal(empleado);
-					vPrincipal.setVisible(true);
-				}else {
-				    // Si los datos están mal, avisamos y NO abrimos la ventana
-				    JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error de Login", JOptionPane.ERROR_MESSAGE);
-				}
-				} catch (Exception e2) {
-					 JOptionPane.showMessageDialog(null, "Error de login ");
-				}
-				
-				tfIdEmpleado.setText("");
-				tfPassword.setText("");
-				
-			}
 		});
 		btAcceder.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btAcceder.setBounds(120, 329, 155, 35);
+		btAcceder.setBounds(114, 380, 155, 35);
 		contentPane.add(btAcceder);
 		
 		JButton btCancelar = new JButton("C A N C E L A R");
@@ -148,7 +164,7 @@ public class Login extends JFrame {
 			}
 		});
 		btCancelar.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btCancelar.setBounds(359, 329, 168, 35);
+		btCancelar.setBounds(353, 380, 168, 35);
 		contentPane.add(btCancelar);
 		
 		JLabel lbImagen = new JLabel("New label");
@@ -175,7 +191,7 @@ public class Login extends JFrame {
 		
 		tfPassword = new JPasswordField();
 		tfPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		tfPassword.setBounds(167, 247, 254, 29);
+		tfPassword.setBounds(167, 226, 254, 29);
 		contentPane.add(tfPassword);
 		
 		JCheckBox cbVer = new JCheckBox("Ver");
@@ -197,6 +213,17 @@ public class Login extends JFrame {
 		cbVer.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbVer.setBounds(456, 247, 86, 29);
 		contentPane.add(cbVer);
+		
+		JLabel lbIp = new JLabel("IP del servidor:");
+		lbIp.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbIp.setBounds(218, 277, 181, 24);
+		contentPane.add(lbIp);
+		
+		tfIp = new JTextField();
+		tfIp.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tfIp.setColumns(10);
+		tfIp.setBounds(167, 312, 254, 29);
+		contentPane.add(tfIp);
 		
 		//this.dispose();
 		

@@ -170,26 +170,26 @@ public class Chat extends JDialog {
 		
 	}
 	
-	public Chat(String nombre,String ip) {
+	public Chat(String nombre,String ipServer) {
 		this();
 		this.nombreUsuario = nombre;
-		this.ipUsuario = ip;
+		this.ipUsuario = ipServer;
 		
 		if (nombre != null && !nombre.isEmpty()) {
             lbNombre.setText("¡ Hola " +nombre+"!"); 
         } else {
             lbNombre.setText("");
         }
-		conectarAlServidor(ip);
+		conectarAlServidor(ipServer);
 		
 		
 	}
 	
 	//Metodo para conectarse con el servidor
 	
-	private void conectarAlServidor(String ip) {
+	private void conectarAlServidor(String ipServer) {
 	    try {
-	        socket = new Socket(ip, 5000);
+	        socket = new Socket(ipServer, 5000);
 	        salida = new PrintWriter(socket.getOutputStream(), true);
 	        entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 

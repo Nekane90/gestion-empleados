@@ -9,6 +9,8 @@ import java.util.Base64;
 
 import javax.swing.JOptionPane;
 
+import com.mysql.jdbc.Connection;
+
 import conexion.Conexion;
 import modeloDto.EmpleadoDto;
 
@@ -24,7 +26,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 	private static final String SQL_FINDEMPLEPORCATEGORIA="SELECT * FROM empleados WHERE idCategoria = ?";
 	private static final String SQL_FIND2 = "SELECT nombre, contraseña, idCategoria FROM empleados WHERE idEmpleado = ?";
 	
-	private Conexion con= Conexion.getInstancia();
+	//private Conexion con= Conexion.getInstancia();
 
 	/**
 	 * Inserta un nuevo registro de empleado en la base de datos.
@@ -40,7 +42,8 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 		
 		PreparedStatement ps=null;
 		try {
-			ps=con.getCon().prepareStatement(SQL_INSERT);
+		
+			ps = obtenerCon().prepareStatement(SQL_INSERT);
 		
 			ps.setString(1, emp.getNombreEmple());
 			ps.setString(2, emp.getApellidoEmple());
@@ -83,7 +86,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 	public boolean borrar(Object pk) {
 		PreparedStatement ps=null;
 		try {
-			ps=con.getCon().prepareStatement(SQL_DELETE);
+			ps=obtenerCon().prepareStatement(SQL_DELETE);
 			ps.setInt(1, (int)pk);
 			int filas=ps.executeUpdate();
 			if(filas>0) return true;
@@ -116,7 +119,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 	public boolean actualizar(EmpleadoDto emp) {
 		PreparedStatement ps=null;
 		try {
-			ps=con.getCon().prepareStatement(SQL_UPDATE);
+			ps=obtenerCon().prepareStatement(SQL_UPDATE);
 			ps.setString(1,emp.getNombreEmple());
 			ps.setString(2, emp.getApellidoEmple());
 			ps.setString(3, emp.getDni());
@@ -158,7 +161,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 	public EmpleadoDto buscar(Object pk) {
 		EmpleadoDto empe = null;
 		try {
-			PreparedStatement ps=con.getCon().prepareStatement(SQL_FIND);
+			PreparedStatement ps=obtenerCon().prepareStatement(SQL_FIND);
 			ps.setInt(1, (int)pk);
 			
 			ResultSet rs = ps.executeQuery();
@@ -188,7 +191,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 	public ArrayList<EmpleadoDto> listarTodos() {
 		ArrayList<EmpleadoDto> listaEmp = new ArrayList<EmpleadoDto>();
 		try {
-			PreparedStatement ps = con.getCon().prepareStatement(SQL_FINDALL);
+			PreparedStatement ps = obtenerCon().prepareStatement(SQL_FINDALL);
 			ResultSet rs = ps.executeQuery();
 			while ( rs.next()) {
 				EmpleadoDto empe = new EmpleadoDto(rs.getInt("idEmpleado"), rs.getString("nombre"), rs.getString("apellido"),rs.getString("dni"),rs.getDouble("salario"),
@@ -222,7 +225,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 		PreparedStatement ps=null;
 		ResultSet rs = null;
 		try {
-			ps=con.getCon().prepareStatement(SQL_FINDEMPLEPORCATEGORIA);
+			ps=obtenerCon().prepareStatement(SQL_FINDEMPLEPORCATEGORIA);
 			ps.setInt(1, idCategoria);
 			rs = ps.executeQuery();
 			
@@ -264,7 +267,7 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 	    
 	    PreparedStatement ps=null;
 	    try {
-	    	ps=con.getCon().prepareStatement(SQL_FIND);
+	    	ps=obtenerCon().prepareStatement(SQL_FIND);
 	        ps.setInt(1, idEmpleado);
 	        ResultSet rs = ps.executeQuery();
 	        if (rs.next()) {
@@ -309,7 +312,10 @@ public class EmpleadoDao  implements PatronDao<EmpleadoDto> {
 		        throw new RuntimeException(ex);
 		    }
 		}
-	
-	
+		//Metodo para obtener la conexion
+		
+		private Connection obtenerCon() {
+		    return (Connection) Conexion.getInstancia().getCon();
+		}
 
 }

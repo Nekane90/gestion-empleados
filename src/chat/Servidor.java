@@ -30,10 +30,7 @@ public class Servidor {
                     	    nombres.add(miNombre);
                     	}
                     	actualizarLista();
-                        //nombres.add(miNombre);
-                        
-                        //escritores.add(out); 
-                        //actualizarLista();
+                      
                     }
 
                     String msg;

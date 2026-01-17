@@ -7,6 +7,7 @@ public class Conexion {
 	
 	private static Conexion instancia = null;
 	private static Connection con;
+	public static String ipServer;
 	
 	/**
 	 * Este método realiza las siguientes tareas:
@@ -20,8 +21,8 @@ public class Conexion {
 	
 	
 	private Conexion () {
-		 String host = "127.0.0.1"; //Podríamos poner "localhost"
-		 String user = "root";
+		 String host = ipServer; //127.0.0.1 aqui tengo puesta la ip de mi ordenador para que se conecten sin abrir el xamp
+		 String user = "compañeros"; // root
 		 String pass = "";
 		 String dtbs = "cafeteria gaupasa";
 		 try{
@@ -33,10 +34,24 @@ public class Conexion {
 			 e.printStackTrace();
 		 }
 	 }
-	public static Conexion getInstancia(){
+	
+
+	public static Conexion getInstancia(String ipRecibida){
+	    // Si la instancia no existe, la creamos pasando la IP
+	    if (instancia == null) {
+	        ipServer = ipRecibida; 
+	        instancia = new Conexion();
+	    }
+	    return instancia;
+	}
+	
+	public static Conexion getInstancia() {
+	    return instancia; 
+	}
+	/*public static Conexion getInstancia(){
 		if (instancia == null) instancia = new Conexion();
 			return instancia;
-	 	}
+	 	}*/
 	
 	public Connection getCon (){
 		return con;

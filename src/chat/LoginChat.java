@@ -31,7 +31,7 @@ public class LoginChat extends JFrame {
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,12 +43,13 @@ public class LoginChat extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
+	 * @param ipServer 
 	 */
-	public LoginChat(EmpleadoDto emp) {
+	public LoginChat(EmpleadoDto emp, String ipServer) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginChat.class.getResource("/imagenes/LOGO.png")));
 		setTitle("Bienvenido");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,8 +88,8 @@ public class LoginChat extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				String nombre = emp.getNombreEmple();
-				String ip = tfIp.getText().trim();
-				Chat vChat = new Chat(nombre,ip);
+				//String ip = tfIp.getText().trim();
+				Chat vChat = new Chat(nombre,ipServer);
 				vChat.setVisible(true);
 				
 			}

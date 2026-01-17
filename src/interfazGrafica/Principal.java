@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import chat.Chat;
 import chat.LoginChat;
 import modeloDto.EmpleadoDto;
 
@@ -30,7 +31,7 @@ public class Principal extends JDialog {
 	
 	
 
-	public Principal(EmpleadoDto emp) {
+	public Principal(EmpleadoDto emp, String ipServer) {
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Gestion Del Personal");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginChat.class.getResource("/imagenes/LOGO.png")));
@@ -143,8 +144,11 @@ public class Principal extends JDialog {
 		btChat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				LoginChat vChat = new LoginChat( emp);
+				String nombre = emp.getNombreEmple();
+				Chat vChat = new Chat(nombre,ipServer);
 				vChat.setVisible(true);
+				//LoginChat vChat = new LoginChat( emp,ipServer);
+				//vChat.setVisible(true);
 			}
 		});
 		btChat.setFont(new Font("Tahoma", Font.PLAIN, 13));
