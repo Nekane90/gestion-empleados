@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import chat.Chat;
-import chat.LoginChat;
 import modeloDto.EmpleadoDto;
 
 public class Principal extends JDialog {
@@ -28,9 +27,10 @@ public class Principal extends JDialog {
 
 
 	public Principal(EmpleadoDto emp, String ipServer) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/imagenes/LOGO.png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Gestion Del Personal");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginChat.class.getResource("/imagenes/LOGO.png")));
+	
 
 		setBounds(100, 100, 715, 471);
 		getContentPane().setLayout(new BorderLayout());

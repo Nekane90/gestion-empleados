@@ -24,7 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import chat.LoginChat;
 import modeloDao.CategoriaDao;
 import modeloDao.EmpleadoDao;
 import modeloDto.CategoriaDto;
@@ -54,9 +53,10 @@ public class ModificarEmpleados extends JDialog {
 	 */
 
 	public ModificarEmpleados() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ModificarEmpleados.class.getResource("/imagenes/LOGO.png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Modificar Empleados");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginChat.class.getResource("/imagenes/LOGO.png")));
+	
 		setBounds(100, 100, 671, 522);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
