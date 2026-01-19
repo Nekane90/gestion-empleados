@@ -6,17 +6,17 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.Connection;
 
-import modeloDto.CategoriaDto;
 import conexion.Conexion;
+import modeloDto.CategoriaDto;
 
 
 
 /**
  * Clase DAO encargada de gestionar
  * el acceso a la tabla "categorias" de la base de datos.
- * 
+ *
  * Proporciona métodos para obtener información de las categorías.
- * 
+ *
  * @author Nekane y Maialen
  * @version 1.0
  */
@@ -27,24 +27,24 @@ public class CategoriaDao {
 	 */
 	private static final String SQL_FINDALL="SELECT * FROM categorias";
 
-	
+
 	/**
 	 * Instancia de la conexión a la base de datos.
 	 */
-	
+
 	//private Conexion con = Conexion.getInstancia();
-	
-	
+
+
 	//Devuelve la lista de todos las categorias de la tabla
 	/**
 	 * Devuelve una lista con todas las categorías
 	 * almacenadas en la base de datos.
-	 * 
+	 *
 	 * @return ArrayList<CategoriaDto> lista de categorías
 	 */
-	
+
 		public ArrayList<CategoriaDto> listarTodos() {
-			ArrayList<CategoriaDto> listaCat = new ArrayList<CategoriaDto>();
+			ArrayList<CategoriaDto> listaCat = new ArrayList<>();
 			try {
 				PreparedStatement ps = obtenerCon().prepareStatement(SQL_FINDALL);
 				ResultSet rs = ps.executeQuery();
@@ -53,20 +53,20 @@ public class CategoriaDao {
 					listaCat.add(cat);
 				}
 				rs.close();
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
-				
+
 			}
 			return listaCat;
-			
+
 		}
-	
+
 			//Metodo para obtener la conexion
 		private Connection obtenerCon() {
 		    return (Connection) Conexion.getInstancia().getCon();
 		}
-	
-	
-	
+
+
+
 }

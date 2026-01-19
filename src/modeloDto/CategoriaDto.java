@@ -11,9 +11,9 @@ public class CategoriaDto {
 
 	private int idCategoria;
 	private String nombreCategoria;
-	
+
 	//Constructores
-	
+
 	public CategoriaDto(int idCategoria, String nombreCategoria) {
 		super();
 		this.idCategoria = idCategoria;
@@ -25,7 +25,7 @@ public class CategoriaDto {
 	}
 
 	//Getters y setters
-	
+
 	public int getIdCategoria() {
 		return idCategoria;
 	}
@@ -42,7 +42,7 @@ public class CategoriaDto {
 		this.nombreCategoria = nombreCategoria;
 	}
 
-	
+
 	//Hashcode y equals
 	/**
      * Genera el código hash de la categoría.
@@ -62,17 +62,17 @@ public class CategoriaDto {
      */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		CategoriaDto other = (CategoriaDto) obj;
 		return idCategoria == other.idCategoria && Objects.equals(nombreCategoria, other.nombreCategoria);
 	}
-	
-	
+
+
 	///Tostring
 	/**
      * Devuelve en texto la categoría.
@@ -83,12 +83,13 @@ public class CategoriaDto {
      *
      * @return nombre de la categoría
      */
-	 public String toString() {
+	 @Override
+	public String toString() {
 	        return nombreCategoria; // lo que se muestra en el combo
 	    }
-	
-	
-	
-	
-	
+
+
+
+
+
 }

@@ -4,13 +4,13 @@ import java.sql.Date;
 import java.util.Objects;
 /**
  * DTO que representa a un empleado.
- * 
+ *
  * Contiene información personal, laboral y de acceso del empleado.
  * @author Nekane y Maialen
  * @version 1.0
  */
 public class EmpleadoDto {
-	
+
 	private int idEmpleado;
 	private String nombre;
 	private String apellido;
@@ -19,7 +19,7 @@ public class EmpleadoDto {
 	private Date fechaAlta;
 	private int idcategoria;
 	private String contrasenia;
-	
+
 	//Constructor
 	public EmpleadoDto(int idEmpleado, String nombre, String apellido, String dni, Double salario, Date fechaAlta,
 			int idcategoria,String contrasenia) {
@@ -33,7 +33,7 @@ public class EmpleadoDto {
 		this.idcategoria = idcategoria;
 		this.contrasenia = contrasenia;
 	}
-	
+
 	public EmpleadoDto( String nombre, String apellido, String dni, double salario, Date fechaAlta,int idCategoria,String contrasenia) {
 		super();
 		this.nombre = nombre;
@@ -43,23 +43,23 @@ public class EmpleadoDto {
 		this.fechaAlta = fechaAlta;
 		this.idcategoria = idCategoria;
 		this.contrasenia = contrasenia;
-		
+
 	}
 	public EmpleadoDto(String nombre, int idCategoria) {
 		super();
 		this.nombre = nombre;
 		this.idcategoria = idCategoria;
 	}
-	
-	
+
+
 	//Constructor vacio
 	public EmpleadoDto() {
 		super();
 	}
-	
+
 	//Getters y setters
 
-	
+
 
 	public int getIdEmpleado() {
 		return idEmpleado;
@@ -116,7 +116,7 @@ public class EmpleadoDto {
 	public void setIdcategoria(int idcategoria) {
 		this.idcategoria = idcategoria;
 	}
-	
+
 	public String getContrasenia() {
 		return contrasenia;
 	}
@@ -124,7 +124,7 @@ public class EmpleadoDto {
 		this.contrasenia = contrasenia;
 	}
 
-	
+
 	//Hashcode y equals
 	 /**
      * Genera el código hash del empleado.
@@ -143,38 +143,38 @@ public class EmpleadoDto {
      */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		EmpleadoDto other = (EmpleadoDto) obj;
 		return Objects.equals(apellido, other.apellido) && Objects.equals(dni, other.dni)
 				&& Objects.equals(fechaAlta, other.fechaAlta) && idEmpleado == other.idEmpleado
 				&& idcategoria == other.idcategoria && Objects.equals(nombre, other.nombre)
 				&& Objects.equals(salario, other.salario);
 	}
-	
-	
-	
-	
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

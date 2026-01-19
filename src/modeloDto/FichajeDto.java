@@ -3,29 +3,27 @@ package modeloDto;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Objects;
-
-import javax.swing.JOptionPane;
 /**
  * DTO que representa un fichaje de un empleado.
  * <p>
  * Contiene la información relativa a la fecha, hora de entrada,
  * hora de salida y tipo de trabajo realizado.
  * </p>
- * 
+ *
  * @author Nekane y Maialen
  * @version 1.0
  */
 public class FichajeDto {
-	
-	
+
+
 	private int idEmpleado;
 	private Date fecha;
 	private Time horaEntrada;
 	private Time horaSalida;
 	private String tipoTrabajo;
-	
+
 	//Constructores
-	
+
 
 
 	public int getIdEmpleado() {
@@ -81,22 +79,22 @@ public class FichajeDto {
 	public FichajeDto( int idEmpleado, Date fecha, Time horaEntrada, Time horaSalida,
 			String tipoTrabajo) {
 		super();
-		
+
 		//Aqui validamos que solo se pueda poner presencial o teletrabajo /// equalsIgnoreCase no tiene en cuenta si se escribe mayusculas o minusculas, es como el equals
 		if ("presencial".equalsIgnoreCase(tipoTrabajo) || "teletrabajo".equalsIgnoreCase(tipoTrabajo)) {
 		    this.tipoTrabajo = tipoTrabajo;
 		} else {
 		    throw new IllegalArgumentException("Tipo de trabajo no válido: " + tipoTrabajo);
 		}
-		
+
 		this.idEmpleado = idEmpleado;
 		this.fecha = fecha;
 		this.horaEntrada = horaEntrada;
 		this.horaSalida = horaSalida;
-		
+
 	}
 
-	
+
 	///Hashcode y equals
 	/**
      * Genera el código hash del fichaje.
@@ -116,21 +114,21 @@ public class FichajeDto {
      */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		FichajeDto other = (FichajeDto) obj;
 		return Objects.equals(fecha, other.fecha) && Objects.equals(horaEntrada, other.horaEntrada)
 				&& Objects.equals(horaSalida, other.horaSalida) && idEmpleado == other.idEmpleado;
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 
 }

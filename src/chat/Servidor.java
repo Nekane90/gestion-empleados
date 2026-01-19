@@ -1,10 +1,13 @@
 package chat;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class Servidor {
-    
+
     static ArrayList<PrintWriter> escritores = new ArrayList<>();
     static ArrayList<String> nombres = new ArrayList<>();
 
@@ -15,13 +18,13 @@ public class Servidor {
         while (true) {
             Socket s = servidor.accept();
             PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-            
-            new Thread(() -> { 
-                String miNombre = null; 
+
+            new Thread(() -> {
+                String miNombre = null;
                 try {
                     BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
-                    miNombre = in.readLine(); 
+                    miNombre = in.readLine();
                     if (miNombre != null) {
                     	synchronized (escritores) {
                     	    escritores.add(out);
@@ -30,7 +33,7 @@ public class Servidor {
                     	    nombres.add(miNombre);
                     	}
                     	actualizarLista();
-                      
+
                     }
 
                     String msg;
@@ -63,9 +66,9 @@ public class Servidor {
 
     static void actualizarLista() {
         String fullList = "LISTA_USUARIOS:" + String.join(",", nombres);
-        
+
         // Sincronizamos el acceso a la lista de escritores
-        synchronized (escritores) { 
+        synchronized (escritores) {
             for (PrintWriter w : escritores) {
                 w.println(fullList);
             }
@@ -73,7 +76,7 @@ public class Servidor {
     }
 
 
-    
+
     //metodo para pasar los nombres de los que estan conectados
     public static void enviarListaATodos() {
     	String protocolo = "LISTA_USUARIOS:";
@@ -85,6 +88,6 @@ public class Servidor {
         }
     }
 }
-	    
+
 
 

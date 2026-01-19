@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import com.mysql.jdbc.Connection;
 
 import conexion.Conexion;
-
 import modeloDto.FichajeDto;
 /**
  * Clase DAO que gestiona las operaciones sobre la tabla
@@ -25,7 +24,7 @@ import modeloDto.FichajeDto;
 public class FichajeDao implements PatronDao<FichajeDto>{
 	/** Sentencia SQL para insertar un nuevo fichaje */
 	private static final String SQL_INSERT="INSERT INTO fichajes(idEmpleado,fecha,horaEntrada,horaSalida,tipoTrabajo) VALUES (?,?,?,?,?)";
-	/** 
+	/**
      * Sentencia SQL para actualizar la hora de salida de un fichaje
      * que todavía no tiene hora de salida registrada
      */
@@ -46,16 +45,18 @@ public class FichajeDao implements PatronDao<FichajeDto>{
 		PreparedStatement ps=null;
 		try {
 			ps=obtenerCon().prepareStatement(SQL_INSERT);
-		
+
 			ps.setInt(1, fich.getIdEmpleado());
 			ps.setDate(2, fich.getFecha());
 			ps.setTime(3, fich.getHoraEntrada());
 			ps.setTime(4,fich.getHoraSalida());
 			ps.setString(5, fich.getTipoTrabajo());
-			
 
-			
-			if(ps.executeUpdate()>0) return true;
+
+
+			if(ps.executeUpdate()>0) {
+				return true;
+			}
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -80,7 +81,7 @@ public class FichajeDao implements PatronDao<FichajeDto>{
      *
      * @param idEmpleado id del empleado
      * @param fecha fecha del fichaje
-     * @param horaSalida hora de salida 
+     * @param horaSalida hora de salida
      * @return {@code true} si la actualización se realiza correctamente,
      *         {@code false} en caso contrario
      */
@@ -91,9 +92,11 @@ public class FichajeDao implements PatronDao<FichajeDto>{
 			ps.setTime(1, horaSalida);
 	        ps.setInt(2, idEmpleado);
 	        ps.setDate(3, fecha);
-			
-					
-			if(ps.executeUpdate()>0) return true;
+
+
+			if(ps.executeUpdate()>0) {
+				return true;
+			}
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -132,7 +135,7 @@ public class FichajeDao implements PatronDao<FichajeDto>{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	//Metodo para obtener la conexion
 	private Connection obtenerCon() {
 	    return (Connection) Conexion.getInstancia().getCon();

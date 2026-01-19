@@ -1,10 +1,13 @@
 package chat;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 public class Hilo implements Runnable {
-	
+
 	private Socket socket;
     private BufferedReader entrada;
     private String nombre;
@@ -13,18 +16,19 @@ public class Hilo implements Runnable {
         this.socket = socket;
     }
 
- 
-    public void run() {
+
+    @Override
+	public void run() {
         try {
             entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             nombre = entrada.readLine();
             //registrar usuario
-         
+
             synchronized (Servidor.nombres) {
                 Servidor.nombres.add(nombre);
             }
             System.out.println(nombre + " se ha unido.");
-            
+
             //enviamos la lista actualizada
             Servidor.enviarListaATodos();
 
@@ -32,7 +36,7 @@ public class Hilo implements Runnable {
             // Este bucle escucha los mensajes de este cliente específico
             while ((mensaje = entrada.readLine()) != null) {
                 System.out.println("Mensaje recibido: " + mensaje);
-                
+
                 // Reenviar el mensaje a TODOS los empleados conectados
                 for (PrintWriter escritor : Servidor.escritores) {
                     escritor.println(mensaje);
@@ -46,7 +50,7 @@ public class Hilo implements Runnable {
                 Servidor.nombres.remove(nombre);
                 Servidor.enviarListaATodos();
             }
-          
+
             try {
                 socket.close();
             } catch (IOException e) {
@@ -58,5 +62,5 @@ public class Hilo implements Runnable {
 
 }
 
-	
-	    
+
+
