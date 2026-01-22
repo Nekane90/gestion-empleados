@@ -157,6 +157,11 @@ public class Principal extends JDialog {
 		btChat.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btChat.setBounds(461, 158, 168, 32);
 		contentPanel.add(btChat);
+		
+		JButton btMete = new JButton("M E T E O R O L O G I A");
+		btMete.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btMete.setBounds(461, 110, 168, 32);
+		contentPanel.add(btMete);
 
 
 				if (emp == null) {
