@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.5.final using JasperReports Library version 6.21.5-74d586df47b25dbd05bd0957999819196e59934a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InformeEmpleados" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="cafeteriaGaupasa"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="p_idSeleccionado" class="java.lang.Integer"/>
+	<parameter name="p_anioSeleccionado" class="java.lang.Integer"/>
+	<parameter name="p_rutaLogo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{p_rutaLogo}]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT 
+    e.nombre,          
+    f.fecha,           
+    f.horaEntrada,
+    f.horaSalida,
+    f.tipoTrabajo,
+    CASE 
+        WHEN f.horaSalida < f.horaEntrada  
+        THEN TIMEDIFF(ADDTIME(f.horaSalida, '12:00:00'), f.horaEntrada)
+        ELSE TIMEDIFF(f.horaSalida, f.horaEntrada)
+    END AS duracion_fila,
+    CASE 
+        WHEN f.horaSalida < f.horaEntrada 
+        THEN TIME_TO_SEC(TIMEDIFF(ADDTIME(f.horaSalida, '12:00:00'), f.horaEntrada))
+        ELSE TIME_TO_SEC(TIMEDIFF(f.horaSalida, f.horaEntrada))
+    END AS segundos_valor
+FROM fichajes f
+INNER JOIN empleados e ON f.idEmpleado = e.idEmpleado  
+WHERE f.idEmpleado = $P{p_idSeleccionado}
+  AND YEAR(f.fecha) = $P{p_anioSeleccionado}
+ORDER BY f.fecha ASC]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="empleados"/>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fichajes"/>
+	</field>
+	<field name="horaEntrada" class="java.sql.Time">
+		<property name="com.jaspersoft.studio.field.name" value="horaEntrada"/>
+		<property name="com.jaspersoft.studio.field.label" value="horaEntrada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fichajes"/>
+	</field>
+	<field name="horaSalida" class="java.sql.Time">
+		<property name="com.jaspersoft.studio.field.name" value="horaSalida"/>
+		<property name="com.jaspersoft.studio.field.label" value="horaSalida"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fichajes"/>
+	</field>
+	<field name="tipoTrabajo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipoTrabajo"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipoTrabajo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fichajes"/>
+	</field>
+	<field name="duracion_fila" class="java.sql.Time">
+		<property name="com.jaspersoft.studio.field.name" value="duracion_fila"/>
+		<property name="com.jaspersoft.studio.field.label" value="duracion_fila"/>
+	</field>
+	<field name="segundos_valor" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="segundos_valor"/>
+		<property name="com.jaspersoft.studio.field.label" value="segundos_valor"/>
+	</field>
+	<variable name="totalSegundosGlobal" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{segundosValor}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="132" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="2" y="0" width="568" height="120" backcolor="#E1F3E1" uuid="6c6ca4e1-17cd-4913-93d6-5e670ea9ae8a"/>
+				<staticText>
+					<reportElement style="SubTitle" mode="Opaque" x="60" y="20" width="370" height="66" forecolor="#030202" backcolor="#E1F3E1" uuid="a2a2cac8-5a7d-4487-8c54-dab235ce4e21"/>
+					<box>
+						<pen lineColor="#030202"/>
+					</box>
+					<textElement>
+						<font size="32" isBold="true"/>
+					</textElement>
+					<text><![CDATA[INFORME FICHAJES]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="116" y="70" width="300" height="24" uuid="35c4d6a4-37b9-455a-be5c-12e0915c3ae5"/>
+					<textElement>
+						<font size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Fichajes de: " + $F{nombre} + " (Año " + $P{p_anioSeleccionado} + ")"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<image>
+				<reportElement x="451" y="0" width="119" height="95" uuid="6018a927-1c30-4ec7-b34a-d6a8ed05e75f"/>
+				<imageExpression><![CDATA["/src/imagenes/LOGO.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="0" width="100" height="26" uuid="1fd2d4bd-6122-4ea7-bfee-efd79ce8b09c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d20c77a0-036b-4f1a-a98a-4e82057b5a95"/>
+				</reportElement>
+				<text><![CDATA[nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="0" width="100" height="26" uuid="1ac1f67f-f7a9-4682-8ff3-65007bb25848">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6c58d4ce-0dbe-46f0-993f-96f79799841a"/>
+				</reportElement>
+				<text><![CDATA[horaEntrada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="0" width="100" height="26" uuid="669ac38f-7d94-48eb-b79a-6682fd01c53e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a700db44-e908-4da9-9378-706267a60c0e"/>
+				</reportElement>
+				<text><![CDATA[horaSalida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="0" width="100" height="26" uuid="4b7d0746-25e7-435d-92b9-5deca2de8520">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d6f14742-2a82-4dd2-8ab3-b694d2e8fc45"/>
+				</reportElement>
+				<text><![CDATA[tipoTrabajo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="0" width="100" height="26" uuid="e4738505-c535-4738-a925-99fb6eae773b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="32f0b1ab-8551-4d25-b07d-a1f66e80e7f0"/>
+				</reportElement>
+				<text><![CDATA[fecha]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="82" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="27" width="100" height="30" uuid="31063e52-5632-4a06-b23a-9742d6016046">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d20c77a0-036b-4f1a-a98a-4e82057b5a95"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="27" width="100" height="30" uuid="58fda14e-62bc-4001-8429-f8275de5afa4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6c58d4ce-0dbe-46f0-993f-96f79799841a"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{horaEntrada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="27" width="100" height="30" uuid="fbccd984-998e-40f7-bfd3-4309592b0976">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a700db44-e908-4da9-9378-706267a60c0e"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{horaSalida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="27" width="100" height="30" uuid="e417e098-17f0-4a73-adb6-6cc3b0b98463">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d6f14742-2a82-4dd2-8ab3-b694d2e8fc45"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{tipoTrabajo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="27" width="100" height="30" uuid="8dd92dbe-deba-47ae-a43f-17f28b3f8aa2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="32f0b1ab-8551-4d25-b07d-a1f66e80e7f0"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="1133a906-5b71-476e-9f3e-bc97c97058c1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#000000" uuid="729c3539-f946-4d0e-a0a7-bda2815ea1b0"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF" uuid="4834e99c-7f6c-485a-b098-50e5187f2ab4"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="433" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="9825b46e-76f1-469a-abb8-a1cc27aad685"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="1" width="197" height="20" forecolor="#FFFFFF" uuid="137d38c7-1a83-4fc5-b156-9d5f1b1a0ddc"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="30" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="100" y="0" width="388" height="30" uuid="68b41694-107f-49cb-ae7d-0d6d247c1c7c"/>
+				<textFieldExpression><![CDATA["TOTAL HORAS TRABAJADAS: " + String.format("%02d:%02d", $V{totalSegundosGlobal} / 3600, ($V{totalSegundosGlobal} % 3600) / 60)]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

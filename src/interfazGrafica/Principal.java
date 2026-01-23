@@ -33,7 +33,7 @@ public class Principal extends JDialog {
 		setTitle("Gestion Del Personal");
 
 
-		setBounds(100, 100, 715, 471);
+		setBounds(100, 100, 833, 500);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -42,7 +42,7 @@ public class Principal extends JDialog {
 
 		JLabel lbTitulo = new JLabel("GESTION DEL PERSONAL");
 		lbTitulo.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lbTitulo.setBounds(208, 34, 277, 49);
+		lbTitulo.setBounds(295, 24, 277, 49);
 		contentPanel.add(lbTitulo);
 
 		JButton btAlta = new JButton("A L T A");
@@ -106,7 +106,7 @@ public class Principal extends JDialog {
 		});
 		btFichaje.setBackground(new Color(59, 164, 147));
 		btFichaje.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btFichaje.setBounds(455, 225, 198, 80);
+		btFichaje.setBounds(565, 161, 198, 80);
 		contentPanel.add(btFichaje);
 
 		JButton btSalir = new JButton("S A L I R");
@@ -117,12 +117,12 @@ public class Principal extends JDialog {
 			}
 		});
 		btSalir.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btSalir.setBounds(521, 379, 150, 32);
+		btSalir.setBounds(490, 396, 150, 32);
 		contentPanel.add(btSalir);
 
 
 		JLabel lbImagen = new JLabel();
-		lbImagen.setBounds(529, 0, 162, 125);
+		lbImagen.setBounds(614, 10, 162, 125);
 		contentPanel.add(lbImagen);
 
 		// Cargar la imagen original
@@ -156,7 +156,7 @@ public class Principal extends JDialog {
 			}
 		});
 		btChat.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btChat.setBounds(461, 158, 168, 32);
+		btChat.setBounds(341, 173, 168, 32);
 		contentPanel.add(btChat);
 
 		JButton btMete = new JButton("M E T E O R O L O G I A");
@@ -167,8 +167,20 @@ public class Principal extends JDialog {
 			}
 		});
 		btMete.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btMete.setBounds(461, 110, 168, 32);
+		btMete.setBounds(341, 125, 168, 32);
 		contentPanel.add(btMete);
+		
+		JButton btInformes = new JButton("I N F O R M E S");
+		btInformes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				VentanaInformes vInformes = new VentanaInformes();
+				vInformes.setVisible(true);
+			}
+		});
+		btInformes.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btInformes.setBounds(341, 237, 168, 32);
+		contentPanel.add(btInformes);
 
 
 				if (emp == null) {
@@ -179,12 +191,14 @@ public class Principal extends JDialog {
 					btAlta.setEnabled(false);
 					btBaja.setEnabled(false);
 					btConsultar.setEnabled(false);
+					//btInformes.setEnabled(false);
 
 				}
 				else if (emp.getIdcategoria() == 2) {//cocinero
 					btAlta.setEnabled(false);
 					btBaja.setEnabled(false);
 					btConsultar.setEnabled(false);
+					//btInformes.setEnabled(false);
 
 
 				}
@@ -193,6 +207,7 @@ public class Principal extends JDialog {
 					btAlta.setEnabled(false);
 					btBaja.setEnabled(false);
 					btConsultar.setEnabled(false);
+					//btInformes.setEnabled(false);
 
 
 				}

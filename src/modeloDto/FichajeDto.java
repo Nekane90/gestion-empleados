@@ -21,14 +21,39 @@ public class FichajeDto {
 	private Time horaEntrada;
 	private Time horaSalida;
 	private String tipoTrabajo;
+	
+	///Constructores
+	public FichajeDto( int idEmpleado, Date fecha, Time horaEntrada, Time horaSalida,
+			String tipoTrabajo) {
+		super();
 
-	//Constructores
+		//Aqui validamos que solo se pueda poner presencial o teletrabajo /// equalsIgnoreCase no tiene en cuenta si se escribe mayusculas o minusculas, es como el equals
+		if ("presencial".equalsIgnoreCase(tipoTrabajo) || "teletrabajo".equalsIgnoreCase(tipoTrabajo)) {
+		    this.tipoTrabajo = tipoTrabajo;
+		} else {
+		    throw new IllegalArgumentException("Tipo de trabajo no válido: " + tipoTrabajo);
+		}
 
+		this.idEmpleado = idEmpleado;
+		this.fecha = fecha;
+		this.horaEntrada = horaEntrada;
+		this.horaSalida = horaSalida;
 
+	}
+	
+	public FichajeDto() {
+		
+	}
+	
+	
+	
 
 	public int getIdEmpleado() {
 		return idEmpleado;
 	}
+
+
+	
 
 
 	public void setIdEmpleado(int idEmpleado) {
@@ -76,23 +101,7 @@ public class FichajeDto {
 	}
 
 
-	public FichajeDto( int idEmpleado, Date fecha, Time horaEntrada, Time horaSalida,
-			String tipoTrabajo) {
-		super();
-
-		//Aqui validamos que solo se pueda poner presencial o teletrabajo /// equalsIgnoreCase no tiene en cuenta si se escribe mayusculas o minusculas, es como el equals
-		if ("presencial".equalsIgnoreCase(tipoTrabajo) || "teletrabajo".equalsIgnoreCase(tipoTrabajo)) {
-		    this.tipoTrabajo = tipoTrabajo;
-		} else {
-		    throw new IllegalArgumentException("Tipo de trabajo no válido: " + tipoTrabajo);
-		}
-
-		this.idEmpleado = idEmpleado;
-		this.fecha = fecha;
-		this.horaEntrada = horaEntrada;
-		this.horaSalida = horaSalida;
-
-	}
+	
 
 
 	///Hashcode y equals
@@ -126,7 +135,13 @@ public class FichajeDto {
 	}
 
 
+	 @Override
+	 public String toString() {
+		return "año" +fecha ;
+	 }
 
+
+	
 
 
 

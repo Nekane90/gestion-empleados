@@ -156,6 +156,14 @@ public class EmpleadoDto {
 				&& Objects.equals(salario, other.salario);
 	}
 
+	
+	
+	public String toString() {
+		return nombre +"-ID-"+idEmpleado;
+	
+	}
+
+	
 
 
 

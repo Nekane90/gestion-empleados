@@ -2,6 +2,7 @@ package modeloDao;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import com.mysql.jdbc.Connection;
 
 import conexion.Conexion;
+import modeloDto.EmpleadoDto;
 import modeloDto.FichajeDto;
 /**
  * Clase DAO que gestiona las operaciones sobre la tabla
@@ -31,6 +33,9 @@ public class FichajeDao implements PatronDao<FichajeDto>{
 	private static final String SQL_UPDATEHORASALIDA ="UPDATE fichajes SET horaSalida = ? WHERE idEmpleado = ? AND fecha = ? AND horaSalida = '00:00:00'";
 	 /** Instancia de la conexión a la base de datos */
 	//private Conexion con= Conexion.getInstancia();
+	
+	private static final String SQL_FINDALL="SELECT * FROM fichajes";
+	private static final String SQL_SEPARARAÑOS = "SELECT DISTINCT YEAR(fecha) AS anio FROM fichajes ORDER BY anio DESC";
 
 	//////INSERTAR/////
 	/**
@@ -132,9 +137,42 @@ public class FichajeDao implements PatronDao<FichajeDto>{
 
 	@Override
 	public ArrayList<FichajeDto> listarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<FichajeDto> listaFich = new ArrayList<>();
+		try {
+			PreparedStatement ps = obtenerCon().prepareStatement(SQL_FINDALL);
+			ResultSet rs = ps.executeQuery();
+			while ( rs.next()) {
+				FichajeDto fich= new FichajeDto(rs.getInt("idEmpleado"), rs.getDate("fecha"), rs.getTime("horaEntrada"),rs.getTime("horaSalida"),rs.getString("tipoTrabajo"));
+				listaFich.add(fich);
+
+			}
+			rs.close();
+
+		} catch (Exception e) {
+
+		}
+		return listaFich;
 	}
+	
+	public ArrayList<Integer> listarAniosDisponibles() {
+	    ArrayList<Integer> listaAnios = new ArrayList<>(); 
+	    try {
+	    	PreparedStatement ps = obtenerCon().prepareStatement(SQL_SEPARARAÑOS);
+			ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            //Por cada fila que devuelve la BD, sacamos el número
+	            int anio = rs.getInt("anio");
+	            
+	            listaAnios.add(anio); 
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return listaAnios; 
+	}
+	
+	
 
 	//Metodo para obtener la conexion
 	private Connection obtenerCon() {
