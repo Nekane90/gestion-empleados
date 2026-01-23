@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import chat.Chat;
+import meteorologia.PantallaMeoterologia;
 import modeloDto.EmpleadoDto;
 
 public class Principal extends JDialog {
@@ -159,6 +160,12 @@ public class Principal extends JDialog {
 		contentPanel.add(btChat);
 
 		JButton btMete = new JButton("M E T E O R O L O G I A");
+		btMete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PantallaMeoterologia vMeteo = new PantallaMeoterologia();
+				vMeteo.setVisible(true);
+			}
+		});
 		btMete.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btMete.setBounds(461, 110, 168, 32);
 		contentPanel.add(btMete);

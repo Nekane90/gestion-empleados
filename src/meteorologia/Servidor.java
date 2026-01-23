@@ -1,6 +1,7 @@
 package meteorologia;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -18,23 +19,23 @@ public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
     public String obtenerInstrucciones(String urlPrevision) throws RemoteException {
         StringBuilder instrucciones = new StringBuilder();
         try {
-            URL url = new URL(urlPrevision);
-            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+        	InputStream url =getClass().getResourceAsStream("/meteorologia/" + urlPrevision);
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(url));
             String linea;
-            while ((linea = br.readLine()) != null) {
-                if (linea.contains("lluvia")) {
-                    instrucciones.append("- Cerrar toldos\n");
-                    instrucciones.append("- Apagar estufas\n");
+            while ((linea = buffer.readLine()) != null) {
+                linea = linea.toLowerCase();
+
+                if (linea.contains("nublado")) {
+                    instrucciones.append("- Mantener toldos cerrados\n");
                 }
-                if (linea.contains("sol")) {
-                    instrucciones.append("- Abrir toldos\n");
-                    instrucciones.append("- Encender estufas\n");
+                if (linea.contains("lluvia") && !linea.contains("0 mm")) {
+                    instrucciones.append("- Cerrar toldos\n");
                 }
                 if (linea.contains("viento")) {
                     instrucciones.append("- Cerrar cortavientos\n");
                 }
             }
-            br.close();
+            buffer.close();
         } catch (Exception e) {
             e.printStackTrace();
             instrucciones.append("Error al leer la previsión: ").append(e.getMessage());
@@ -47,7 +48,7 @@ public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
         try {
             Servidor service = new Servidor();
             Registry registry = LocateRegistry.createRegistry(1099);
-            registry.rebind("TerrazaService", service);
+            registry.rebind("TerrazaInterfaz", service);
             System.out.println("Servidor RMI listo...");
         } catch (Exception e) {
             e.printStackTrace();

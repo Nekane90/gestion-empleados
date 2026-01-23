@@ -10,7 +10,7 @@ public class Cliente {
             TerrazaInterfaz service = (TerrazaInterfaz) registry.lookup("TerrazaInterfaz");
 
             // URL del archivo de previsión
-            String urlPrevision = "https://mi-servidor.com/prevision.txt";
+            String urlPrevision = "Informe_Muskiz.txt";
 
             // Llamada remota
             String instrucciones = service.obtenerInstrucciones(urlPrevision);
