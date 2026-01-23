@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-
 import modeloDao.EmpleadoDao;
 import modeloDto.EmpleadoDto;
 
@@ -72,7 +71,7 @@ public class EliminarEmpleados extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(EliminarEmpleados.class.getResource("/imagenes/LOGO.png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Baja Empleados");
-		
+
 		setBounds(100, 100, 648, 539);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));

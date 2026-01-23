@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
-
 import conexion.Conexion;
 import modeloDao.EmpleadoDao;
 import modeloDto.EmpleadoDto;
@@ -71,7 +70,7 @@ public class Login extends JFrame {
 	public Login() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/LOGO.png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
-		
+
 		setTitle("Login");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 655, 478);

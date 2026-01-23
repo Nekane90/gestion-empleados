@@ -30,7 +30,7 @@ public class Principal extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/imagenes/LOGO.png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Gestion Del Personal");
-	
+
 
 		setBounds(100, 100, 715, 471);
 		getContentPane().setLayout(new BorderLayout());
@@ -157,7 +157,7 @@ public class Principal extends JDialog {
 		btChat.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btChat.setBounds(461, 158, 168, 32);
 		contentPanel.add(btChat);
-		
+
 		JButton btMete = new JButton("M E T E O R O L O G I A");
 		btMete.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btMete.setBounds(461, 110, 168, 32);

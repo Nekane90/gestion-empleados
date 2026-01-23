@@ -46,6 +46,7 @@ public class Conexion {
 	}
 
 	public static Conexion getInstancia() {
+		if (instancia == null) instancia = new Conexion();
 	    return instancia;
 	}
 	/*public static Conexion getInstancia(){

@@ -56,7 +56,7 @@ public class ModificarEmpleados extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ModificarEmpleados.class.getResource("/imagenes/LOGO.png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Modificar Empleados");
-	
+
 		setBounds(100, 100, 671, 522);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
