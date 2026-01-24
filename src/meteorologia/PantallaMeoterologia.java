@@ -13,25 +13,18 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.awt.event.ActionEvent;
 
 public class PantallaMeoterologia extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
+	private JTextArea taMeteo;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			PantallaMeoterologia dialog = new PantallaMeoterologia();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
+	
 
 	/**
 	 * Create the dialog.
@@ -51,8 +44,9 @@ public class PantallaMeoterologia extends JDialog {
 			contentPanel.add(lblMeteorologia);
 		}
 		
-		JTextArea taMeteo = new JTextArea();
+		taMeteo = new JTextArea();
 		taMeteo.setBounds(103, 125, 510, 250);
+		taMeteo.setEditable(false);
 		contentPanel.add(taMeteo);
 		
 		JButton btnSalir = new JButton("S A L I R");
@@ -68,5 +62,27 @@ public class PantallaMeoterologia extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		}
+		cargarInstrucciones();
 	}
+	private void cargarInstrucciones() { // hace de cliente
+        try {
+            // Conexión RMI
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            TerrazaInterfaz service = (TerrazaInterfaz) registry.lookup("TerrazaInterfaz");
+            
+            // URL del archivo meteorológico
+            String rutaArchivo = 
+                "https://drive.google.com/uc?export=download&id=1R-XDcmZhXN1SNKUOtjR3Wc2Df9f-FsMZ";
+            
+            // Obtener y mostrar instrucciones
+            String instrucciones = service.obtenerInstrucciones(rutaArchivo); // le manda al servidor la ruta
+            taMeteo.setText(instrucciones);// muestra el resultado
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            taMeteo.setText(" Error al conectar con el servidor:\n\n" + 
+                                      ex.getMessage());
+        }
+    }
 }
+
