@@ -1,7 +1,6 @@
 package meteorologia;
 
 import java.io.BufferedReader;
-
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -33,14 +32,14 @@ public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
             int viento = 0;
             String estado = "";
 
-            
+
             String linea;
             while ((linea = buffer.readLine()) != null) {//Lee línea por línea
                 linea = linea.trim().toLowerCase();
                 /*Detecta cada campo con `startsWith("estado:")`, `startsWith("temperatura:")`, etc.
  				Extrae solo números** con `.replaceAll("[^0-9,]", "")` para temperatura y lluvia
                 Convierte coma a punto** para temperatura: `10,8` → `10.8`*/
-                
+
                 // Extraer ESTADO
                 if (linea.startsWith("estado:")) {
                     estado = linea.replace("estado:", "").trim();
@@ -72,7 +71,7 @@ public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
             }
             buffer.close();
 
-           
+
 
             //TOLDOS
             if (estado.equals("soleado") && lluvia == 0 && viento <= 30) {

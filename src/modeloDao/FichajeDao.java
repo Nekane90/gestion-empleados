@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import com.mysql.jdbc.Connection;
 
 import conexion.Conexion;
-import modeloDto.EmpleadoDto;
 import modeloDto.FichajeDto;
 /**
  * Clase DAO que gestiona las operaciones sobre la tabla
@@ -33,7 +32,7 @@ public class FichajeDao implements PatronDao<FichajeDto>{
 	private static final String SQL_UPDATEHORASALIDA ="UPDATE fichajes SET horaSalida = ? WHERE idEmpleado = ? AND fecha = ? AND horaSalida = '00:00:00'";
 	 /** Instancia de la conexión a la base de datos */
 	//private Conexion con= Conexion.getInstancia();
-	
+
 	private static final String SQL_FINDALL="SELECT * FROM fichajes";
 	private static final String SQL_SEPARARAÑOS = "SELECT DISTINCT YEAR(fecha) AS anio FROM fichajes ORDER BY anio DESC";
 
@@ -153,9 +152,9 @@ public class FichajeDao implements PatronDao<FichajeDto>{
 		}
 		return listaFich;
 	}
-	
+
 	public ArrayList<Integer> listarAniosDisponibles() {
-	    ArrayList<Integer> listaAnios = new ArrayList<>(); 
+	    ArrayList<Integer> listaAnios = new ArrayList<>();
 	    try {
 	    	PreparedStatement ps = obtenerCon().prepareStatement(SQL_SEPARARAÑOS);
 			ResultSet rs = ps.executeQuery();
@@ -163,16 +162,16 @@ public class FichajeDao implements PatronDao<FichajeDto>{
 	        while (rs.next()) {
 	            //Por cada fila que devuelve la BD, sacamos el número
 	            int anio = rs.getInt("anio");
-	            
-	            listaAnios.add(anio); 
+
+	            listaAnios.add(anio);
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-	    return listaAnios; 
+	    return listaAnios;
 	}
-	
-	
+
+
 
 	//Metodo para obtener la conexion
 	private Connection obtenerCon() {

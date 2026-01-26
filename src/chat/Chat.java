@@ -141,7 +141,7 @@ public class Chat extends JDialog {
 
 				String texto = tfEscribir.getText().trim();
 			    if (!texto.isEmpty()) {
-			      
+
 			    	salida.println(texto);
 			        tfEscribir.setText("");
 			    }

@@ -1,21 +1,21 @@
 package meteorologia;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import javax.swing.JTextArea;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class PantallaMeoterologia extends JDialog {
 
@@ -23,8 +23,8 @@ public class PantallaMeoterologia extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextArea taMeteo;
 
-	
-	
+
+
 
 	/**
 	 * Create the dialog.
@@ -43,14 +43,15 @@ public class PantallaMeoterologia extends JDialog {
 			lblMeteorologia.setBounds(194, 27, 338, 55);
 			contentPanel.add(lblMeteorologia);
 		}
-		
+
 		taMeteo = new JTextArea();
 		taMeteo.setBounds(103, 125, 510, 250);
 		taMeteo.setEditable(false);
 		contentPanel.add(taMeteo);
-		
+
 		JButton btnSalir = new JButton("S A L I R");
 		btnSalir.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
@@ -69,18 +70,18 @@ public class PantallaMeoterologia extends JDialog {
             // Conexión RMI
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
             TerrazaInterfaz service = (TerrazaInterfaz) registry.lookup("TerrazaInterfaz");
-            
+
             // URL del archivo meteorológico
-            String rutaArchivo = 
+            String rutaArchivo =
                 "https://drive.google.com/uc?export=download&id=1R-XDcmZhXN1SNKUOtjR3Wc2Df9f-FsMZ";
-            
+
             // Obtener y mostrar instrucciones
             String instrucciones = service.obtenerInstrucciones(rutaArchivo); // le manda al servidor la ruta
             taMeteo.setText(instrucciones);// muestra el resultado
-            
+
         } catch (Exception ex) {
             ex.printStackTrace();
-            taMeteo.setText(" Error al conectar con el servidor:\n\n" + 
+            taMeteo.setText(" Error al conectar con el servidor:\n\n" +
                                       ex.getMessage());
         }
     }

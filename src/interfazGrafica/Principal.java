@@ -8,20 +8,16 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import chat.Chat;
 import meteorologia.PantallaMeoterologia;
-import meteorologia.TerrazaInterfaz;
 import modeloDto.EmpleadoDto;
 
 public class Principal extends JDialog {
@@ -165,20 +161,22 @@ public class Principal extends JDialog {
 
 		JButton btMete = new JButton("M E T E O R O L O G I A");
 		btMete.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				PantallaMeoterologia vMeteo = new PantallaMeoterologia();
 				vMeteo.setVisible(true);
-				
+
 			}
 		});
 		btMete.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btMete.setBounds(341, 125, 168, 32);
 		contentPanel.add(btMete);
-		
+
 		JButton btInformes = new JButton("I N F O R M E S");
 		btInformes.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				VentanaInformes vInformes = new VentanaInformes();
 				vInformes.setVisible(true);
 			}

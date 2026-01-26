@@ -156,14 +156,15 @@ public class EmpleadoDto {
 				&& Objects.equals(salario, other.salario);
 	}
 
-	
-	
+
+
+	@Override
 	public String toString() {
 		return nombre +"-ID-"+idEmpleado;
-	
+
 	}
 
-	
+
 
 
 

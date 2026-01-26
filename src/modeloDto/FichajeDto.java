@@ -21,7 +21,7 @@ public class FichajeDto {
 	private Time horaEntrada;
 	private Time horaSalida;
 	private String tipoTrabajo;
-	
+
 	///Constructores
 	public FichajeDto( int idEmpleado, Date fecha, Time horaEntrada, Time horaSalida,
 			String tipoTrabajo) {
@@ -40,20 +40,20 @@ public class FichajeDto {
 		this.horaSalida = horaSalida;
 
 	}
-	
+
 	public FichajeDto() {
-		
+
 	}
-	
-	
-	
+
+
+
 
 	public int getIdEmpleado() {
 		return idEmpleado;
 	}
 
 
-	
+
 
 
 	public void setIdEmpleado(int idEmpleado) {
@@ -101,7 +101,7 @@ public class FichajeDto {
 	}
 
 
-	
+
 
 
 	///Hashcode y equals
@@ -141,7 +141,7 @@ public class FichajeDto {
 	 }
 
 
-	
+
 
 
 
