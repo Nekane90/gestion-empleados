@@ -14,6 +14,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -187,10 +189,20 @@ public class Chat extends JDialog {
 	//Metodo para conectarse con el servidor
 
 	private void conectarAlServidor(String ipServer) {
+		System.setProperty("javax.net.ssl.keyStore", "certificados/cafeteria");
+		System.setProperty("javax.net.ssl.keyStorePassword","000000");
+		
+		//System.setProperty("javax.net.ssl.trustStore","certificados/UsuarioCafeteria");
+		//System.setProperty("javax.net.ssl.trustStorePassword","123456");
+		
+		System.out.println("Programa cliente iniciado...");
+		SSLSocketFactory sfact=(SSLSocketFactory) SSLSocketFactory.getDefault();
+		
 	    try {
-	        socket = new Socket(ipServer, 5000);
-	        salida = new PrintWriter(socket.getOutputStream(), true);
-	        entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	    	SSLSocket cliente=(SSLSocket) sfact.createSocket(ipServer, 5000);
+
+	        salida = new PrintWriter(cliente.getOutputStream(), true);
+	        entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
 
 	        salida.println(this.nombreUsuario); // Enviamos el nombre al conectar
 

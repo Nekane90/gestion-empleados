@@ -1,10 +1,16 @@
 package chat;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
 
 public class Servidor {
 
@@ -12,41 +18,48 @@ public class Servidor {
     static ArrayList<String> nombres = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
-        ServerSocket servidor = new ServerSocket(5000);
+    	int puerto = 5000;
+        
         System.out.println("Servidor iniciado...");
+        
+        System.setProperty("javax.net.ssl.keyStore", "certificados/cafeteria");
+		System.setProperty("javax.net.ssl.keyStorePassword","000000");
+		
+		SSLServerSocketFactory sfact=(SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+		SSLServerSocket servidorSSL=(SSLServerSocket) sfact.createServerSocket(puerto);
+		SSLSocket clienteConectado=null;
+				
+        	
+		while (true) {
+		    // Aceptamos la conexión segura
+		    clienteConectado = (SSLSocket) servidorSSL.accept(); 
 
-        while (true) {
-            Socket s = servidor.accept();
-            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+		    PrintWriter out = new PrintWriter(clienteConectado.getOutputStream(), true);
+		    final SSLSocket socketFinal = clienteConectado; // Para usarlo dentro del Thread
 
-            new Thread(() -> {
-                String miNombre = null;
-                try {
-                    BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+		    new Thread(() -> {
+		        String miNombre = null;
+		        try {
+		            // Leemos del socket seguro
+		            BufferedReader in = new BufferedReader(new InputStreamReader(socketFinal.getInputStream()));
 
-                    miNombre = in.readLine();
-                    if (miNombre != null) {
-                    	synchronized (escritores) {
-                    	    escritores.add(out);
-                    	}
-                    	synchronized (nombres) {
-                    	    nombres.add(miNombre);
-                    	}
-                    	actualizarLista();
+		            miNombre = in.readLine();
+		            if (miNombre != null) {
+		                synchronized (escritores) { escritores.add(out); }
+		                synchronized (nombres) { nombres.add(miNombre); }
+		                actualizarLista();
+		            }
 
-                    }
-
-                    String msg;
-                    while ((msg = in.readLine()) != null) {
-                        for (PrintWriter w : escritores) {
-                            w.println(miNombre + ": " + msg);
-                        }
-                    }
-                } catch (Exception e) {
-
-                } finally {
-
-                    if (miNombre != null) {
+		            String msg;
+		            while ((msg = in.readLine()) != null) {
+		                for (PrintWriter w : escritores) {
+		                    w.println(miNombre + ": " + msg);
+		                }
+		            }
+		        } catch (Exception e) {
+		            System.out.println("Error: " + e.getMessage());
+		        } finally {
+		        	if (miNombre != null) {
                     	synchronized (escritores) {
                     	    escritores.remove(out);
                     	}
@@ -54,14 +67,12 @@ public class Servidor {
                     	    nombres.remove(miNombre);
                     	}
                     	actualizarLista();
-                        //nombres.remove(miNombre);
-                        //escritores.remove(out);
                         System.out.println(miNombre + " se ha desconectado.");
-                        actualizarLista(); // Avisamos a los que quedan para que borren el nombre
+                        actualizarLista(); 
                     }
-                }
-            }).start();
-        }
+		        }
+		    }).start();
+		}
     }
 
     static void actualizarLista() {
@@ -88,6 +99,4 @@ public class Servidor {
         }
     }
 }
-
-
 
