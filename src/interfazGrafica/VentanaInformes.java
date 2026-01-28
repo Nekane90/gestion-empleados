@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -130,10 +129,10 @@ public class VentanaInformes extends JDialog {
 
 				EmpleadoDto emp = (EmpleadoDto) cbNombreEmp.getSelectedItem();
 				int idEmple = emp.getIdEmpleado();
-				
+
 				int anio = (int) cbAño.getSelectedItem();
-				
-				
+
+
 				try {
 			        // Silenciador de avisos
 			        java.util.logging.Logger.getLogger("net.sf.jasperreports").setLevel(java.util.logging.Level.SEVERE);
@@ -159,7 +158,7 @@ public class VentanaInformes extends JDialog {
 			        } catch (Exception exLogo) {
 			            System.out.println("Error al cargar el stream del logo: " + exLogo.getMessage());
 			        }
-			        
+
 			        parametros.put("p_idSeleccionado",idEmple);
 			        parametros.put("p_anioSeleccionado",anio);
 

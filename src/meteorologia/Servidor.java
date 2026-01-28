@@ -1,12 +1,10 @@
 package meteorologia;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
+import java.io.*;
+import java.net.*;
+import java.rmi.*;
+import java.rmi.registry.*;
+import java.rmi.server.*;
 
 public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
 
@@ -15,120 +13,189 @@ public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
     }
 
     @Override
+
     public String obtenerInstrucciones(String rutaArchivo) throws RemoteException {
+
         StringBuilder instrucciones = new StringBuilder();
 
+        // Variables meteorológicas
+        String fecha = "";
+        String lugar = "";
+        String estado = "";
+        double temperatura = 0;
+        int lluvia = 0;
+        double viento = 0;
+
         try {
+            
+            //Leer archivo desde la URL
             URL url = new URL(rutaArchivo);
-            BufferedReader buffer = new BufferedReader(new InputStreamReader(url.openStream()));
-            instrucciones.append("BIENVENIDO A LA METEOROLOGIA DE CAFETERÍA GAUPASA\n");
-            instrucciones.append("\n");
-            instrucciones.append("TAREAS DEL CAMARERO:\n");
-            instrucciones.append("\n");
-
-            // Variables para almacenar los datos
-            double temperatura = 0;
-            int lluvia = 0;
-            int viento = 0;
-            String estado = "";
-
+            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
 
             String linea;
-            while ((linea = buffer.readLine()) != null) {//Lee línea por línea
+
+            while ((linea = br.readLine()) != null) {
                 linea = linea.trim().toLowerCase();
-                /*Detecta cada campo con `startsWith("estado:")`, `startsWith("temperatura:")`, etc.
- 				Extrae solo números** con `.replaceAll("[^0-9,]", "")` para temperatura y lluvia
-                Convierte coma a punto** para temperatura: `10,8` → `10.8`*/
 
-                // Extraer ESTADO
-                if (linea.startsWith("estado:")) {
-                    estado = linea.replace("estado:", "").trim();
-                }
+                // Comprobamos cada dato por separado
+                if (linea.startsWith("fecha:")) {
+                    fecha = linea.substring(6).trim(); //solo coge la fecha, sin la palabra 'fecha'
 
-                // Extraer TEMPERATURA
-                if (linea.startsWith("temperatura:")) {
-                    String tempStr = linea.replaceAll("[^0-9,]", "").replace(",", ".");
-                    if (!tempStr.isEmpty()) {
-                        temperatura = Double.parseDouble(tempStr);
-                    }
-                }
+                } else if (linea.startsWith("lugar:")) {
+                    lugar = linea.substring(6).trim();
 
-                // Extraer LLUVIA
-                if (linea.startsWith("lluvia:")) {
-                    String lluviaStr = linea.replaceAll("[^0-9]", "");
-                    if (!lluviaStr.isEmpty()) {
-                        lluvia = Integer.parseInt(lluviaStr);
-                    }
-                }
+                } else if (linea.startsWith("estado:")) {
+                    estado = linea.substring(7).trim();
 
-                // Extraer VIENTO
-                if (linea.startsWith("viento:")) {
-                    String vientoStr = linea.replaceAll("[^0-9]", "");
-                    if (!vientoStr.isEmpty()) {
-                        viento = Integer.parseInt(vientoStr);
-                    }
+                } else if (linea.startsWith("temperatura:")) {
+                    temperatura = obtenerDouble(linea);
+
+                } else if (linea.startsWith("lluvia:")) {
+                    lluvia = obtenerEntero(linea);
+
+                } else if (linea.startsWith("viento:")) {
+                    viento = obtenerDouble(linea);
                 }
             }
-            buffer.close();
 
+            br.close();
 
+            // INFORME QUE SE MANDA AL JDIALOG
+            instrucciones.append("INFORME METEOROLÓGICO\n");
+            instrucciones.append("FECHA:       ").append(fecha).append("\n");
+            instrucciones.append("LUGAR:       ").append(lugar).append("\n");
+            instrucciones.append("ESTADO:      ").append(estado.toUpperCase()).append("\n");
+            instrucciones.append("Temperatura: ").append(temperatura).append(" °C\n");
+            instrucciones.append("Lluvia:      ").append(lluvia).append(" mm\n");
+            instrucciones.append("Viento:      ").append(viento).append(" km/h\n\n");
 
-            //TOLDOS
-            if (estado.equals("soleado") && lluvia == 0 && viento <= 30) {
-                instrucciones.append("- Abrir toldos\n");
-            } else if (lluvia > 0 || viento > 30) {
+           
+
+            // casos de tiempo
+            if (estado.equals("soleado")) {
+
+                // Toldos
+                if (lluvia == 0 && viento <= 30) {
+                    instrucciones.append("- Abrir toldos\n");
+                }
+
+                // Estufas
+                if (temperatura < 15) {
+                    instrucciones.append("- Encender estufas\n");
+                } else if (temperatura >= 22) {
+                    instrucciones.append("- Apagar estufas\n");
+                }
+
+                // Aspersores
+                if (temperatura > 28) {
+                    instrucciones.append("- Encender aspersores de agua\n");
+                }
+
+                // Cortavientos
+                if (viento > 20) {
+                    instrucciones.append("- Cerrar cortavientos\n");
+                } else if (viento < 10) {
+                    instrucciones.append("- Abrir cortavientos\n");
+                }
+            }else if (estado.equals("nublado")) {
+
+                if (lluvia == 0 && viento <= 20) {
+                    instrucciones.append("- Abrir parcialmente toldos\n");
+                }
+
+                if (temperatura < 15) {
+                    instrucciones.append("- Encender estufas\n");
+                }
+
+                if (temperatura > 28) {
+                    instrucciones.append("- Encender aspersores de agua\n");
+                }
+
+                if (viento > 20) {
+                    instrucciones.append("- Cerrar cortavientos\n");
+                } else if (viento < 10) {
+                    instrucciones.append("- Abrir cortavientos\n");
+                }
+            }else if (estado.equals("lluvioso")) {
+
                 instrucciones.append("- Cerrar toldos\n");
-            }
-
-            // ESTUFAS
-            if (temperatura < 15) {
-                instrucciones.append("- Encender estufas\n");
-            } else if (temperatura >= 22) {
-                instrucciones.append("- Apagar estufas\n");
-            }
-
-            // ASPERSORES
-            if (temperatura > 28 && estado.equals("soleado") && lluvia == 0) {
-                instrucciones.append("- Encender aspersores de agua\n");
-            } else if (lluvia > 0 || temperatura <= 25) {
-                instrucciones.append("- Apagar aspersores de agua\n");
-            }
-
-            // ORTAVIENTOS
-            if (viento > 20) {
-                instrucciones.append("- Cerrar cortavientos\n");
-            } else if (viento < 10) {
-                instrucciones.append("- Abrir cortavientos\n");
-            }
-
-            // MESAS EXTERIORES
-            if (lluvia > 0) {
                 instrucciones.append("- Retirar mesas exteriores\n");
-            }
+                instrucciones.append("- Apagar aspersores de agua\n");
 
-            //SI NO HAY ACCIONES
-            if (instrucciones.length() == 0) {
+                if (temperatura < 15) {
+                    instrucciones.append("- Encender estufas\n");
+                }
+            }else if (estado.equals("tormenta")) {
+
+                instrucciones.append("- Cerrar toldos\n");
+                instrucciones.append("- Retirar mesas exteriores\n");
+                instrucciones.append("- Apagar aspersores de agua\n");
+                instrucciones.append("- Cerrar cortavientos\n");
+
+                if (temperatura < 15) {
+                    instrucciones.append("- Encender estufas\n");
+                }
+            }else if (estado.equals("nevado")) {
+
+                instrucciones.append("- Cerrar toldos\n");
+                instrucciones.append("- Retirar mesas exteriores\n");
+                instrucciones.append("- Cerrar cortavientos\n");
+
+                if (temperatura < 15) {
+                    instrucciones.append("- Encender estufas\n");
+                }
+            } else {
                 instrucciones.append("- No se requieren acciones especiales\n");
             }
 
+
         } catch (Exception e) {
             e.printStackTrace();
-            instrucciones.append("Error al leer el archivo");
+            return "Error al leer el archivo meteorológico";
         }
 
         return instrucciones.toString();
     }
+    
+    private double obtenerDouble(String texto) {
+        if (texto == null || texto.isEmpty()) return 0;
+        // Quitar todo lo que no sea numero, punto o coma
+        String valor = texto.replaceAll("[^0-9,.-]", "");
+        // Reemplazar la coma por punto 
+        valor = valor.replace(",", ".");
+        // Si queda vacío devuelve 0
+        if (valor.isEmpty()) return 0;
+        // Convertir a double
+        return Double.parseDouble(valor);
+    }
+
+    
+    private int obtenerEntero(String texto) {
+        if (texto == null || texto.isEmpty()) return 0;
+        // Quitar todo lo que no sea numero
+        String valor = texto.replaceAll("[^0-9]", "");
+        // Si queda vacío devuelve 0
+        if (valor.isEmpty()) return 0;
+        // Convertir a entero
+        return Integer.parseInt(valor);
+    }
+
 
     // Main para arrancar el servidor
     public static void main(String[] args) {
         try {
+            
+            System.setProperty("java.rmi.server.hostname",InetAddress.getLocalHost().getHostAddress()); // InetAddress.getLocalHost().getHostAddress() obtiene la IP local de la máquina
             Servidor service = new Servidor();
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.rebind("TerrazaInterfaz", service);
             System.out.println("Servidor RMI listo...");
         } catch (Exception e) {
+            // Si ocurre cualquier error (IP, registro, servicio) se imprime la traza
             e.printStackTrace();
         }
+    
     }
 
 }
+

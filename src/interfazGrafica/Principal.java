@@ -163,7 +163,7 @@ public class Principal extends JDialog {
 		btMete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PantallaMeoterologia vMeteo = new PantallaMeoterologia();
+				PantallaMeoterologia vMeteo = new PantallaMeoterologia(ipServer);
 				vMeteo.setVisible(true);
 
 			}
