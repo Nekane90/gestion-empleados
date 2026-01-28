@@ -213,7 +213,7 @@ public class Login extends JFrame {
 
 		cbVer.setBackground(new Color(225, 243, 225));
 		cbVer.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbVer.setBounds(456, 247, 86, 29);
+		cbVer.setBounds(451, 226, 86, 29);
 		contentPane.add(cbVer);
 
 		JLabel lbIp = new JLabel("IP del servidor:");
