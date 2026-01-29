@@ -38,7 +38,7 @@ public class PantallaMeoterologia extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblMeteorologia = new JLabel("METEOROLOGIA");
+			JLabel lblMeteorologia = new JLabel("METEOROLOGÍA");
 			lblMeteorologia.setFont(new Font("Tahoma", Font.BOLD, 31));
 			lblMeteorologia.setHorizontalAlignment(SwingConstants.CENTER);
 			lblMeteorologia.setBounds(194, 27, 338, 55);
