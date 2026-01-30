@@ -182,8 +182,8 @@ ORDER BY f.fecha ASC]]>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{tipoTrabajo}]]></textFieldExpression>
 			</textField>
-			<textField pattern="MMMM d, yyyy">
-				<reportElement x="310" y="0" width="100" height="30" uuid="8dd92dbe-deba-47ae-a43f-17f28b3f8aa2">
+			<textField pattern="MMM d, yyyy">
+				<reportElement x="310" y="0" width="100" height="30" isPrintInFirstWholeBand="true" uuid="8dd92dbe-deba-47ae-a43f-17f28b3f8aa2">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="32f0b1ab-8551-4d25-b07d-a1f66e80e7f0"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>

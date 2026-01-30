@@ -203,8 +203,8 @@
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{salario}]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement x="390" y="0" width="80" height="30" uuid="475125ea-e2e6-4856-bcd2-d39ce80b4927">
+				<textField pattern="MMM d, yyyy">
+					<reportElement x="390" y="0" width="91" height="30" uuid="475125ea-e2e6-4856-bcd2-d39ce80b4927">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="74f000c5-fb66-4785-bab1-e68c973dd641"/>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{fechaAlta}]]></textFieldExpression>

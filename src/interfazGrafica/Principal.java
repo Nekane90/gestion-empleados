@@ -194,14 +194,14 @@ public class Principal extends JDialog {
 					btAlta.setEnabled(false);
 					btBaja.setEnabled(false);
 					btConsultar.setEnabled(false);
-					//btInformes.setEnabled(false);
+					btInformes.setEnabled(false);
 
 				}
 				else if (emp.getIdcategoria() == 2) {//cocinero
 					btAlta.setEnabled(false);
 					btBaja.setEnabled(false);
 					btConsultar.setEnabled(false);
-					//btInformes.setEnabled(false);
+					btInformes.setEnabled(false);
 
 
 				}
@@ -210,7 +210,7 @@ public class Principal extends JDialog {
 					btAlta.setEnabled(false);
 					btBaja.setEnabled(false);
 					btConsultar.setEnabled(false);
-					//btInformes.setEnabled(false);
+					btInformes.setEnabled(false);
 
 
 				}
