@@ -189,14 +189,14 @@ public class Chat extends JDialog {
 	//Metodo para conectarse con el servidor
 
 	private void conectarAlServidor(String ipServer) {
-		
-		
+
+
 		System.setProperty("javax.net.ssl.trustStore","certificados/UsuarioCafeteria");
 		System.setProperty("javax.net.ssl.trustStorePassword","123456");
-		
+
 		System.out.println("Programa cliente iniciado...");
 		SSLSocketFactory sfact=(SSLSocketFactory) SSLSocketFactory.getDefault();
-		
+
 	    try {
 	    	SSLSocket cliente=(SSLSocket) sfact.createSocket(ipServer, 5000);
 

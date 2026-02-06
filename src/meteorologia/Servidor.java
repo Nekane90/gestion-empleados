@@ -1,10 +1,13 @@
 package meteorologia;
 
-import java.io.*;
-import java.net.*;
-import java.rmi.*;
-import java.rmi.registry.*;
-import java.rmi.server.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.URL;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
 
@@ -27,7 +30,7 @@ public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
         double viento = 0;
 
         try {
-            
+
             //Leer archivo desde la URL
             URL url = new URL(rutaArchivo);
             BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -69,7 +72,7 @@ public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
             instrucciones.append("Lluvia:      ").append(lluvia).append(" mm\n");
             instrucciones.append("Viento:      ").append(viento).append(" km/h\n\n");
 
-           
+
 
             // casos de tiempo
             if (estado.equals("soleado")) {
@@ -156,26 +159,34 @@ public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
 
         return instrucciones.toString();
     }
-    
+
     private double obtenerDouble(String texto) {
-        if (texto == null || texto.isEmpty()) return 0;
+        if (texto == null || texto.isEmpty()) {
+			return 0;
+		}
         // Quitar todo lo que no sea numero, punto o coma
         String valor = texto.replaceAll("[^0-9,.-]", "");
-        // Reemplazar la coma por punto 
+        // Reemplazar la coma por punto
         valor = valor.replace(",", ".");
         // Si queda vacío devuelve 0
-        if (valor.isEmpty()) return 0;
+        if (valor.isEmpty()) {
+			return 0;
+		}
         // Convertir a double
         return Double.parseDouble(valor);
     }
 
-    
+
     private int obtenerEntero(String texto) {
-        if (texto == null || texto.isEmpty()) return 0;
+        if (texto == null || texto.isEmpty()) {
+			return 0;
+		}
         // Quitar todo lo que no sea numero
         String valor = texto.replaceAll("[^0-9]", "");
         // Si queda vacío devuelve 0
-        if (valor.isEmpty()) return 0;
+        if (valor.isEmpty()) {
+			return 0;
+		}
         // Convertir a entero
         return Integer.parseInt(valor);
     }
@@ -184,7 +195,7 @@ public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
     // Main para arrancar el servidor
     public static void main(String[] args) {
         try {
-            
+
             System.setProperty("java.rmi.server.hostname",InetAddress.getLocalHost().getHostAddress()); // InetAddress.getLocalHost().getHostAddress() obtiene la IP local de la máquina
             Servidor service = new Servidor();
             Registry registry = LocateRegistry.createRegistry(1099);
@@ -194,7 +205,7 @@ public class Servidor extends UnicastRemoteObject implements TerrazaInterfaz {
             // Si ocurre cualquier error (IP, registro, servicio) se imprime la traza
             e.printStackTrace();
         }
-    
+
     }
 
 }

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.registry.LocateRegistry;
@@ -31,6 +32,8 @@ public class PantallaMeoterologia extends JDialog {
 	 * Create the dialog.
 	 */
 	public PantallaMeoterologia(String ipServer) {
+		setTitle("Metereología");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(PantallaMeoterologia.class.getResource("/imagenes/LOGO.png")));
 		setBounds(100, 100, 737, 491);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(225, 243, 225));
@@ -59,13 +62,13 @@ public class PantallaMeoterologia extends JDialog {
 		});
 		btnSalir.setBounds(567, 403, 130, 31);
 		contentPanel.add(btnSalir);
-		
+
 		JLabel lblBienvenida = new JLabel("BIENVENIDO A LA METEOROLOGÍA DE CAFETERÍA GAUPASA");
 		lblBienvenida.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblBienvenida.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBienvenida.setBounds(143, 79, 421, 42);
 		contentPanel.add(lblBienvenida);
-		
+
 		JLabel lblTareas = new JLabel("TAREAS DEL CAMARERO:");
 		lblTareas.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblTareas.setBounds(101, 130, 150, 32);
@@ -77,14 +80,14 @@ public class PantallaMeoterologia extends JDialog {
 		}
 		cargarInstrucciones();
 	}
-	
+
 	private void cargarInstrucciones() {// hace de cliente
 	    try {// Conexión RMI
 	        Registry registry = LocateRegistry.getRegistry(ipServer, 1099);
 
 	        TerrazaInterfaz service =
 	            (TerrazaInterfaz) registry.lookup("TerrazaInterfaz");
-	     // URL del archivo 
+	     // URL del archivo
 	        String rutaArchivo =
 	            "https://drive.google.com/uc?export=download&id=1R-XDcmZhXN1SNKUOtjR3Wc2Df9f-FsMZ";
 

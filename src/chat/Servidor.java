@@ -1,11 +1,7 @@
 package chat;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 
 import javax.net.ssl.SSLServerSocket;
@@ -19,20 +15,20 @@ public class Servidor {
 
     public static void main(String[] args) throws Exception {
     	int puerto = 5000;
-        
+
         System.out.println("Servidor iniciado...");
-        
+
         System.setProperty("javax.net.ssl.keyStore", "certificados/cafeteria");
 		System.setProperty("javax.net.ssl.keyStorePassword","000000");
-		
+
 		SSLServerSocketFactory sfact=(SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 		SSLServerSocket servidorSSL=(SSLServerSocket) sfact.createServerSocket(puerto);
 		SSLSocket clienteConectado=null;
-				
-        	
+
+
 		while (true) {
 		    // Aceptamos la conexión segura
-		    clienteConectado = (SSLSocket) servidorSSL.accept(); 
+		    clienteConectado = (SSLSocket) servidorSSL.accept();
 
 		    PrintWriter out = new PrintWriter(clienteConectado.getOutputStream(), true);
 		    final SSLSocket socketFinal = clienteConectado; // Para usarlo dentro del Thread
@@ -68,7 +64,7 @@ public class Servidor {
                     	}
                     	actualizarLista();
                         System.out.println(miNombre + " se ha desconectado.");
-                        actualizarLista(); 
+                        actualizarLista();
                     }
 		        }
 		    }).start();
